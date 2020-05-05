@@ -92,8 +92,8 @@ export default function NewTrackPopup(props) {
         style={{
           margin: 0,
           top: "auto",
-          right: 20,
-          bottom: 200,
+          right: 40,
+          bottom: 40,
           left: "auto",
           position: "fixed",
         }}

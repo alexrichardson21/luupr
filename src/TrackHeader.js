@@ -19,7 +19,7 @@ const yel = yellow[200];
 
 const useStyles = makeStyles(({ palette }) => ({
   card: {
-    background: yel,
+    background: '#ff525a',
     // minWidth: 256,
     textAlign: "center",
     borderRadius: 20,

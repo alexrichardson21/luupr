@@ -14,7 +14,8 @@ import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd";
 const useStyles = makeStyles((theme) => ({
   root: {
     verticalAlign: "middle",
-    background: grey800,
+    background: 'linear-gradient(90deg, #515151 20%, #414141 100%)',
+    // background: '#595959',
     borderRadius: 20,
     marginTop: 15,
     marginRight: 10,

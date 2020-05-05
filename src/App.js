@@ -44,7 +44,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ThemeProvider theme={theme}>
+      <Header></Header>
+        {/* <ThemeProvider theme={theme}>
           <AppBar position="static" style={{ background: "#212121" }}>
             <Toolbar style={{ color: { grey900 } }}>
               <Grid
@@ -62,7 +63,7 @@ function App() {
               </Grid>
             </Toolbar>
           </AppBar>
-        </ThemeProvider>
+        </ThemeProvider> */}
       </header>
       <body className="App-body">
         {trackLayout ? (

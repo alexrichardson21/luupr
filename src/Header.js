@@ -19,8 +19,8 @@ import FilledInput from "@material-ui/core/FilledInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import { Input } from "@material-ui/core";
-import { grey900, white } from "material-ui/styles/colors";
-import { grey800 } from "material-ui/styles/colors";
+import { grey900, white, black } from "material-ui/styles/colors";
+import { grey400 } from "material-ui/styles/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +28,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     width: 500,
+    position: 'fixed',
+    zIndex: 500,
+  /* margin-bottom: 20px; */
+  /* bottom: "auto"; */
+    marginLeft: 20,
+    marginTop: 20,
     // height: 90,
+    background: 'linear-gradient(45deg, #bc62d9 20%, #FF8E53 90%)',
+    
   },
   tempoInput: {
     marginLeft: theme.spacing(10),

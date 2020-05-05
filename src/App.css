@@ -1,34 +1,18 @@
 /* .App {
-  background-color: black;
-}
-
-.App-body {
-  background-color: black;
+  background-color: #616161;
 } */
-
-/* .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-} */
-.App-body {
-  margin-top: 500;
-}
-
-.App {
-  /* background-color: #616161; */
-}
 
 .App-header {
   /* float: left; */
   display: flex;
-  /* margin-bottom: 20px; */
-  /* align-items: center; */
+  height: 13vh;
+  background-color: #313131;
+  /* right: "auto"; */
+}
+
+.App-body {
+  min-height: 87vh;
+  background-color: #414141;
 }
 
 .App-options {
@@ -49,6 +33,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 
 .App-body {
   background-color: #474e5c;
