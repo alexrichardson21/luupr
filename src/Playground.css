@@ -1,0 +1,19 @@
+/* .playgroundContainer {
+    min-height: 10vh;
+} */
+.drumTrack {
+    align-content: center;
+    background-color: black;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    
+}
+
+.trackMixer {
+    background-color: #ffff00;
+    align-content: center;
+}
+
+.trackLoops {
+    align-content: center;
+}
