@@ -6,8 +6,13 @@
   /* float: left; */
   display: flex;
   height: 13vh;
-  background-color: #313131;
+  /* background: linear-gradient(-45deg, #bc62d9 20%, #FF8E53 45%); */
+  background: linear-gradient(#313131 20%, #414141 45%);
   /* right: "auto"; */
+}
+
+.Bottom-Nav {
+  display: center;
 }
 
 .App-body {

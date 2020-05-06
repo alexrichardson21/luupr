@@ -18,13 +18,16 @@ import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
 function App() {
   let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [tracks, setTracks] = React.useState([]);
-  // prefersDarkMode = true;
+  prefersDarkMode = true;
 
   const theme = React.useMemo(
     () =>
       createMuiTheme({
         palette: {
           type: prefersDarkMode ? "dark" : "light",
+          background: {
+            paper: '#505050',
+          },
         },
       }),
     [prefersDarkMode]
@@ -44,7 +47,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <Header></Header>
+        <Header></Header>
         {/* <ThemeProvider theme={theme}>
           <AppBar position="static" style={{ background: "#212121" }}>
             <Toolbar style={{ color: { grey900 } }}>
@@ -81,6 +84,12 @@ function App() {
         <NewTrackPopup functionCallFromParent={parentFunction.bind(this)}>
           {" "}
         </NewTrackPopup>
+        <Box display="flex" justifyContent="center">
+          <ThemeProvider theme={theme}>
+          <SimpleBottomNavigation></SimpleBottomNavigation>
+          </ThemeProvider>
+          
+          </Box>
       </body>
       <footer></footer>
     </div>

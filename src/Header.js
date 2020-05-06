@@ -21,6 +21,7 @@ import Button from "@material-ui/core/Button";
 import { Input } from "@material-ui/core";
 import { grey900, white, black } from "material-ui/styles/colors";
 import { grey400 } from "material-ui/styles/colors";
+import { fullWhite } from "material-ui/styles/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,8 +36,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 20,
     marginTop: 20,
     // height: 90,
-    background: 'linear-gradient(45deg, #bc62d9 20%, #FF8E53 90%)',
-    
+    // background: 'linear-gradient(45deg, #bc62d9 20%, #FF8E53 90%)',
+    background: "#515151"
+  },
+  select: {
+    marginLeft: theme.spacing(1),
+    flex: 0,
+    width: 50,
+    color: white,
   },
   tempoInput: {
     marginLeft: theme.spacing(10),
@@ -48,21 +55,33 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     flex: 0,
     width: 50,
+    // background: '#313131'
   },
   minorButton: {
     padding: 15,
     marginLeft: theme.spacing(5),
     flex: 1,
+    color: fullWhite,
   },
   iconButton: {
     padding: 10,
     marginRight: theme.spacing(1),
+    color: fullWhite,
+  },
+  button: {
+    padding: 10,
+    marginRight: theme.spacing(1),
+    color: fullWhite,
   },
   divider: {
     height: 28,
     margin: 4,
     marginLeft: theme.spacing(1),
+    color: fullWhite,
   },
+  formControl: {
+    color: fullWhite,
+  }
 }));
 
 export default function Header() {
@@ -90,18 +109,23 @@ export default function Header() {
       <IconButton className={classes.iconButton} aria-label="menu">
         <MenuIcon />
       </IconButton>
-      <FormControl variant="filled">
+
+      <FormControl  variant="filled">
         {/* <InputLabel id="demo-simple-select-filled-label">Tempo</InputLabel> */}
         <Input
+          className={classes.formControl}
           id="filled-adornment-amount"
-          classname={classes.tempoInput}
+          // classname={classes.tempoInput}
           value={tempo}
           type="number"
           onChange={handleTempoChange}
-          endAdornment={<InputAdornment position="end">BPM</InputAdornment>}
+          endAdornment={<InputAdornment position="end">
+            <Typography className={classes.formControl}>BPM</Typography></InputAdornment>}
         />
       </FormControl>
+
       <Divider className={classes.divider} orientation="vertical" />
+
       <FormControl variant="standard" className={classes.formControl}>
         {/* <InputLabel id="demo-simple-select-filled-label">Key</InputLabel> */}
         <Select
@@ -109,7 +133,7 @@ export default function Header() {
           id="demo-simple-select-filled"
           value={key}
           onChange={handleKeyChange}
-          className={classes.keyInput}
+          className={classes.select}
         >
           <MenuItem value="A">A</MenuItem>
           <MenuItem value="A#">A#</MenuItem>
@@ -125,18 +149,20 @@ export default function Header() {
           <MenuItem value="G#">G#</MenuItem>
         </Select>
       </FormControl>
+
       <Button className={classes.minorButton} onClick={toggleMinor}>
         {minor ? "minor" : "major"}
       </Button>
+
       <Divider className={classes.divider} orientation="vertical" />
 
-      <IconButton>
+      <IconButton className={classes.button}>
         <PlayIcon />
-      </IconButton>
-      <IconButton>
+      </IconButton >
+      <IconButton className={classes.button}>
         <StopIcon />
       </IconButton>
-      <IconButton>
+      <IconButton className={classes.button}>
         <FiberManualRecordIcon />
       </IconButton>
 

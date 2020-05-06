@@ -13,8 +13,13 @@ const useStyles = makeStyles({
   root: {
     width: 500,
     padding: "2px 4px",
+    position: 'fixed',
+    bottom: 10,
+    left: "auto",
+    right: "auto",
     // display: "flex",
-    // alignItems: "center",
+    alignItems: "center",
+    background: '#515151',
   },
 });
 
