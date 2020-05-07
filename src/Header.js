@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     // height: 90,
     // background: 'linear-gradient(45deg, #bc62d9 20%, #FF8E53 90%)',
-    background: "#515151"
+    background: "#313131"
   },
   select: {
     marginLeft: theme.spacing(1),

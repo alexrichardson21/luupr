@@ -14,12 +14,12 @@ import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd";
 const useStyles = makeStyles((theme) => ({
   root: {
     verticalAlign: "middle",
-    background: 'linear-gradient(90deg, #515151 20%, #414141 100%)',
-    // background: '#595959',
+    // background: 'linear-gradient(90deg, #515151 20%, #414141 100%)',
+    background: '#515151',
     borderRadius: 20,
     marginTop: 15,
-    marginRight: 10,
-    marginLeft: 10,
+    marginRight: 15,
+    marginLeft: 15,
     // padding: theme.spacing(25),
   },
   card: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header(props) {
   const classes = useStyles();
   const [loops, setLoops] = React.useState(0);
 

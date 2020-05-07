@@ -14,11 +14,45 @@ import { grey900 } from "material-ui/styles/colors";
 import AddIcon from "@material-ui/icons/Add";
 import NewTrackPopup from "./NewTrackPopup";
 import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
+import SideDrawer from './SideDrawer'
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import clsx from "clsx";
+
+// import { Typography } from "material-ui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  content: {
+    // flexGrow: 1,
+    // padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: 0,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 240,
+  },
+}));
 
 function App() {
   let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [tracks, setTracks] = React.useState([]);
+  const [openDrawer, toggleDrawer] = React.useState(false);
   prefersDarkMode = true;
+  const classes = useStyles();
+  // const theme = useTheme();
+
+  const callbackFunction = () => {
+    toggleDrawer(!openDrawer)
+  };
 
   const theme = React.useMemo(
     () =>
@@ -26,7 +60,7 @@ function App() {
         palette: {
           type: prefersDarkMode ? "dark" : "light",
           background: {
-            paper: '#505050',
+            paper: "#313131",
           },
         },
       }),
@@ -40,14 +74,15 @@ function App() {
 
   const trackLayout = tracks.map((item) => (
     <Grid item>
-      <TrackBar></TrackBar>
+      <TrackBar openDrawer={openDrawer}></TrackBar>
     </Grid>
   ));
 
   return (
     <div className="App">
       <header className="App-header">
-        <Header></Header>
+        {/* <Header></Header> */}
+        <SideDrawer parentCallback={callbackFunction.bind(this)}></SideDrawer>
         {/* <ThemeProvider theme={theme}>
           <AppBar position="static" style={{ background: "#212121" }}>
             <Toolbar style={{ color: { grey900 } }}>
@@ -75,6 +110,9 @@ function App() {
             direction="column"
             justify="space-between"
             spacing={24}
+            className={clsx(classes.content, {
+              [classes.contentShift]: openDrawer,
+            })}
           >
             {trackLayout}
           </Grid>
@@ -86,10 +124,9 @@ function App() {
         </NewTrackPopup>
         <Box display="flex" justifyContent="center">
           <ThemeProvider theme={theme}>
-          <SimpleBottomNavigation></SimpleBottomNavigation>
+            <SimpleBottomNavigation></SimpleBottomNavigation>
           </ThemeProvider>
-          
-          </Box>
+        </Box>
       </body>
       <footer></footer>
     </div>
