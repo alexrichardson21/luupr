@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     marginTop: 15,
     marginRight: 15,
-    marginLeft: 15,
+    marginLeft: 45,
     // padding: theme.spacing(25),
   },
   card: {

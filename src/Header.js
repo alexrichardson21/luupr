@@ -166,13 +166,6 @@ export default function Header() {
         <FiberManualRecordIcon />
       </IconButton>
 
-      {/* <IconButton type="submit" className={classes.iconButton} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-      <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-        <DirectionsIcon />
-      </IconButton> */}
     </Paper>
   );
 }

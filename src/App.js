@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./App.css";
-import Playground from "./Playground";
-import Header from "./Header";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import SimpleBottomNavigation from "./SimpleBottomNavigation.js";
@@ -13,12 +11,12 @@ import TrackBar from "./TrackBar";
 import { grey900 } from "material-ui/styles/colors";
 import AddIcon from "@material-ui/icons/Add";
 import NewTrackPopup from "./NewTrackPopup";
-import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
-import SideDrawer from './SideDrawer'
+import DrumMaster from "./DrumMaster";
+import DrumTrackBar from "./DrumTrackBar";
+import { DragDropContext } from "react-beautiful-dnd";
+import SideDrawer from "./SideDrawer";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
-
-// import { Typography } from "material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,16 +41,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [tracks, setTracks] = React.useState([]);
   const [openDrawer, toggleDrawer] = React.useState(false);
-  prefersDarkMode = true;
-  const classes = useStyles();
-  // const theme = useTheme();
+  const [drumMasterOpen, setDrumMasterOpen] = React.useState(true);
+  const [currPage, setCurrPage] = React.useState(0);
 
-  const callbackFunction = () => {
-    toggleDrawer(!openDrawer)
-  };
+  let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  prefersDarkMode = true;
+
+  const classes = useStyles();
 
   const theme = React.useMemo(
     () =>
@@ -67,67 +64,81 @@ function App() {
     [prefersDarkMode]
   );
 
-  const parentFunction = (data_from_child) => {
-    console.log("this is happening");
+  const toggleDrawerCallback = () => {
+    toggleDrawer(!openDrawer);
+  };
+
+  const addTrackCallback = (data_from_child) => {
     setTracks(tracks.concat([data_from_child]));
   };
 
-  const trackLayout = tracks.map((item) => (
-    <Grid item>
-      <TrackBar openDrawer={openDrawer}></TrackBar>
-    </Grid>
-  ));
+  const drumLayout = tracks
+    .filter((track) => track === "Drum")
+    .map((track) => (
+      <Grid item>
+        <DrumTrackBar></DrumTrackBar>
+      </Grid>
+    ));
+
+  const trackLayout = tracks
+    .filter((track) => track !== "Drum")
+    .map((track) => (
+      <Grid item>
+        <TrackBar trackType={track}></TrackBar>
+      </Grid>
+    ));
+
+  const luuprPage =
+    currPage === 0 ? (
+      trackLayout ? (
+        <Grid
+          container
+          direction="column"
+          justify="space-between"
+          spacing={24}
+          className={clsx(classes.content, {
+            [classes.contentShift]: openDrawer,
+          })}
+        >
+          <Grid item className="DrumMaster">
+            <DrumMaster
+              open={() => setDrumMasterOpen(!drumMasterOpen)}
+            ></DrumMaster>
+          </Grid>
+          {!drumMasterOpen ? drumLayout : <div></div>}
+          {trackLayout}
+        </Grid>
+      ) : (
+        <div></div>
+      )
+    ) : (
+      <div></div>
+    );
+
+
 
   return (
     <div className="App">
       <header className="App-header">
-        {/* <Header></Header> */}
-        <SideDrawer parentCallback={callbackFunction.bind(this)}></SideDrawer>
-        {/* <ThemeProvider theme={theme}>
-          <AppBar position="static" style={{ background: "#212121" }}>
-            <Toolbar style={{ color: { grey900 } }}>
-              <Grid
-                justify="space-between" // Add it here :)
-                container
-                spacing={24}
-              >
-                <Grid item>
-                  <Header></Header>
-                </Grid>
-
-                <Grid item>
-                  <SimpleBottomNavigation></SimpleBottomNavigation>
-                </Grid>
-              </Grid>
-            </Toolbar>
-          </AppBar>
-        </ThemeProvider> */}
+        <SideDrawer toggle={toggleDrawerCallback.bind(this)}></SideDrawer>
       </header>
+
       <body className="App-body">
-        {trackLayout ? (
-          <Grid
-            container
-            direction="column"
-            justify="space-between"
-            spacing={24}
-            className={clsx(classes.content, {
-              [classes.contentShift]: openDrawer,
-            })}
-          >
-            {trackLayout}
-          </Grid>
-        ) : (
-          <div></div>
-        )}
-        <NewTrackPopup functionCallFromParent={parentFunction.bind(this)}>
+        {luuprPage}
+
+        <NewTrackPopup addTrack={addTrackCallback.bind(this)}>
           {" "}
         </NewTrackPopup>
+
         <Box display="flex" justifyContent="center">
           <ThemeProvider theme={theme}>
-            <SimpleBottomNavigation></SimpleBottomNavigation>
+            <SimpleBottomNavigation
+              page={(val) => setCurrPage(val)}
+            ></SimpleBottomNavigation>
           </ThemeProvider>
         </Box>
       </body>
+
       <footer></footer>
     </div>
   );

@@ -79,8 +79,7 @@ export default function NewTrackPopup(props) {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
-    // value.preventDefault()
-    props.functionCallFromParent(value)
+    props.addTrack(value)
   };
 
   return (

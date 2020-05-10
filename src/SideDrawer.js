@@ -12,11 +12,6 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
@@ -39,6 +34,7 @@ import { Input, Card, CardContent, Grid } from "@material-ui/core";
 import { grey900, white, black } from "material-ui/styles/colors";
 import { grey400 } from "material-ui/styles/colors";
 import { fullWhite } from "material-ui/styles/colors";
+import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
 
 const drawerWidth = 240;
 
@@ -46,25 +42,31 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+  droppable: {
+    display: "flex",
+    padding: 8,
+    overflow: "auto",
+    alignItems: "center",
+  },
   sectionBubble: {
-      height: 150,
-      width: 150,
-      marginTop: 10,
-      marginBottom: 10,
-      marginLeft: theme.spacing(2),
-      marginRight: theme.spacing(2),
-      borderRadius: 65,
-      background: '#590349',
+    height: 150,
+    width: 150,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    borderRadius: 65,
+    background: "#590349",
   },
   appBar: {
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
     width: 500,
-    position: 'fixed',
+    position: "fixed",
     zIndex: 500,
-  /* margin-bottom: 20px; */
-  /* bottom: "auto"; */
+    /* margin-bottom: 20px; */
+    /* bottom: "auto"; */
     marginLeft: 20,
     marginTop: 20,
     // height: 90,
@@ -80,11 +82,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     // width: 500,
-    position: 'fixed',
-    display: 'none',
+    position: "fixed",
+    display: "none",
     zIndex: 500,
-  /* margin-bottom: 20px; */
-  /* bottom: "auto"; */
+    /* margin-bottom: 20px; */
+    /* bottom: "auto"; */
     // marginLeft: 20,
     marginTop: 20,
     // height: 90,
@@ -140,6 +142,9 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     color: fullWhite,
   },
+  sectionContainer: {
+    width: 200,
+  },
   menuButton: {
     marginRight: theme.spacing(1),
     marginLeft: theme.spacing(1),
@@ -190,31 +195,27 @@ export default function PersistentDrawerLeft(props) {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    sendData()
+    sendData();
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-    sendData()
+    sendData();
   };
   const sendData = () => {
-    props.parentCallback();
+    props.toggle();
   };
 
-//   const classes = useStyles();
   const [key, setKey] = React.useState("C");
   const [tempo, setTempo] = React.useState(120);
   const [minor, setMinor] = React.useState(false);
 
   const handleKeyChange = (event) => {
-    
-        setKey(event.target.value);
-    
-    
+    setKey(event.target.value);
   };
   const handleTempoChange = (event) => {
-    if (event.target.value >= 60 && event.target.value <= 300){
-    setTempo(event.target.value);
+    if (event.target.value >= 60 && event.target.value <= 300) {
+      setTempo(event.target.value);
     }
   };
   const toggleMinor = (event) => {
@@ -224,27 +225,6 @@ export default function PersistentDrawerLeft(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      {/* <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Persistent drawer
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
       <Paper
         component="form"
         className={clsx(classes.appBar, {
@@ -281,7 +261,6 @@ export default function PersistentDrawerLeft(props) {
         <Divider className={classes.divider} orientation="vertical" />
 
         <FormControl variant="standard" className={classes.formControl}>
-          {/* <InputLabel id="demo-simple-select-filled-label">Key</InputLabel> */}
           <Select
             labelId="demo-simple-select-filled-label"
             id="demo-simple-select-filled"
@@ -319,14 +298,6 @@ export default function PersistentDrawerLeft(props) {
         <IconButton className={classes.button}>
           <FiberManualRecordIcon />
         </IconButton>
-
-        {/* <IconButton type="submit" className={classes.iconButton} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-      <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-        <DirectionsIcon />
-      </IconButton> */}
       </Paper>
 
       <Drawer
@@ -334,9 +305,6 @@ export default function PersistentDrawerLeft(props) {
         variant="persistent"
         anchor="left"
         open={open}
-        // classes={{
-        //   paper: classes.drawerPaper,
-        // }}
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
@@ -348,19 +316,19 @@ export default function PersistentDrawerLeft(props) {
           </IconButton>
         </div>
 
-        <Grid>
-            <Card>
-                <CardContent className={classes.sectionBubble}>
-                    Verse
-                </CardContent>
+        <Grid container className={classes.sectionContainer}>
+          <Grid item>
+            <Card className={classes.sectionBubble}>
+              <CardContent>Verse</CardContent>
             </Card>
-            <Card>
-                <CardContent className={classes.sectionBubble}>
-                    Hook
-                </CardContent>
+          </Grid>
+
+          <Grid item>
+            <Card className={classes.sectionBubble}>
+              <CardContent>Hook</CardContent>
             </Card>
+          </Grid>
         </Grid>
-        
       </Drawer>
       <main
         className={clsx(classes.content, {

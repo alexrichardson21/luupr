@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import { Box, Card, CardContent } from "@material-ui/core";
-import TrackHeader from "./TrackHeader";
+import DrumMasterHeader from "./DrumMasterHeader";
 import LoopBubble from "./LoopBubble";
 import { grey800 } from "material-ui/styles/colors";
 import { grey600 } from "material-ui/styles/colors";
@@ -38,13 +38,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header(props) {
+export default function DrumMaster(props) {
   const classes = useStyles();
   const [loops, setLoops] = React.useState(0);
 
   const parentFunction = () => {
-    // console.log('this is happening')
     loops < 6 ? setLoops(loops + 1) : setLoops(loops);
+  };
+
+  const callbackFunction = (childData) => {
+    this.setState({drumOpen: childData})
   };
 
   const bubbleLayout = [...Array(loops).keys()].map((item) => (
@@ -78,7 +81,7 @@ export default function Header(props) {
         alignItems="center"
       >
         <Grid item>
-          <TrackHeader></TrackHeader>
+            <DrumMasterHeader open={() => props.open()}></DrumMasterHeader>
         </Grid>
 
         <Grid item className={classes.LoopBubble}>
