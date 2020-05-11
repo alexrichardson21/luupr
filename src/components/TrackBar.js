@@ -38,9 +38,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header(props) {
+export default function TrackBar(props) {
   const classes = useStyles();
   const [loops, setLoops] = React.useState(0);
+  const [isPlaying, setIsPlaying] = React.useState(false)
+  const [openLoop, setLoopOpen] = React.useState(false)
 
   const parentFunction = () => {
     // console.log('this is happening')
@@ -48,7 +50,6 @@ export default function Header(props) {
   };
 
   const bubbleLayout = [...Array(loops).keys()].map((item) => (
-    // <Grid item className={classes.LoopBubble}>
     <Draggable key={item} draggableId={String(item)} index={item}>
       {(provided, snapshot) => (
         <Grid
@@ -62,11 +63,10 @@ export default function Header(props) {
           //   provided.draggableProps.style
           // )}
         >
-          <LoopBubble></LoopBubble>
+          <LoopBubble openLoopCallback={props.openLoopCallback} currPlay={isPlaying} playCallback={() => setIsPlaying(!isPlaying)} id={item}></LoopBubble>
         </Grid>
       )}
     </Draggable>
-    // </Grid>
   ));
 
   return (
@@ -78,15 +78,15 @@ export default function Header(props) {
         alignItems="center"
       >
         <Grid item>
-          <TrackHeader></TrackHeader>
+          <TrackHeader id={props.id}></TrackHeader>
         </Grid>
 
         <Grid item className={classes.LoopBubble}>
-          {loops < 6 ? (
+          {loops < 6 && (
             <NewLoopBubble
               functionCallFromParent={parentFunction.bind(this)}
             ></NewLoopBubble>
-          ) : undefined}
+          )}
         </Grid>
 
         <Grid item>

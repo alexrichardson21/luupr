@@ -67,7 +67,7 @@ const useStyles = makeStyles(({ palette }) => ({
   },
 }));
 
-const TrackHeader = () => {
+const TrackHeader = (props) => {
   const styles = useStyles();
   const shadowStyles = useFadedShadowStyles();
   const borderedGridStyles = useGutterBorderedGridStyles({
@@ -86,7 +86,7 @@ const TrackHeader = () => {
             <TextField
               className={styles.trackInput}
               id="standard-basic"
-              placeholder="Track 1"
+              placeholder={"Track " + (props.id+1)}
             />
           </form>
         </Box>

@@ -2,25 +2,32 @@ import React, { useState } from "react";
 import "./App.css";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import SimpleBottomNavigation from "./SimpleBottomNavigation.js";
+import SimpleBottomNavigation from "./components/SimpleBottomNavigation.js";
 import { Box, Paper, Fab } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
-import TrackBar from "./TrackBar";
+import TrackBar from "./components/TrackBar";
 import { grey900 } from "material-ui/styles/colors";
 import AddIcon from "@material-ui/icons/Add";
-import NewTrackPopup from "./NewTrackPopup";
-import DrumMaster from "./DrumMaster";
-import DrumTrackBar from "./DrumTrackBar";
+import NewTrackPopup from "./components/NewTrackPopup";
+import DrumMaster from "./components/DrumMaster";
+import DrumTrackBar from "./components/DrumTrackBar";
 import { DragDropContext } from "react-beautiful-dnd";
-import SideDrawer from "./SideDrawer";
+import SideDrawer from "./components/SideDrawer";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
+import SamplrEditor from './pages/SamplrEditor';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+  },
+  paper: {
+    // padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    minHeight: 50,
   },
   content: {
     // flexGrow: 1,
@@ -42,9 +49,11 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const [tracks, setTracks] = React.useState([]);
+  const [drums, setDrums] = React.useState([]);
   const [openDrawer, toggleDrawer] = React.useState(false);
   const [drumMasterOpen, setDrumMasterOpen] = React.useState(true);
   const [currPage, setCurrPage] = React.useState(0);
+  const [openLoop, setOpenLoop] = React.useState(0);
 
   let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   prefersDarkMode = true;
@@ -82,40 +91,37 @@ function App() {
 
   const trackLayout = tracks
     .filter((track) => track !== "Drum")
-    .map((track) => (
+    .map((track, i) => (
       <Grid item>
-        <TrackBar trackType={track}></TrackBar>
+        <TrackBar
+          openLoopCallback={(num) => setOpenLoop(num)}
+          trackType={track}
+          id={i}
+        ></TrackBar>
       </Grid>
     ));
 
-  const luuprPage =
-    currPage === 0 ? (
-      trackLayout ? (
-        <Grid
-          container
-          direction="column"
-          justify="space-between"
-          spacing={24}
-          className={clsx(classes.content, {
-            [classes.contentShift]: openDrawer,
-          })}
-        >
-          <Grid item className="DrumMaster">
-            <DrumMaster
-              open={() => setDrumMasterOpen(!drumMasterOpen)}
-            ></DrumMaster>
-          </Grid>
-          {!drumMasterOpen ? drumLayout : <div></div>}
-          {trackLayout}
-        </Grid>
-      ) : (
-        <div></div>
-      )
-    ) : (
-      <div></div>
-    );
+  const luuprPage = currPage === 0 && !openLoop && trackLayout && (
+    <Grid
+      container
+      direction="column"
+      justify="space-between"
+      spacing={24}
+      className={clsx(classes.content, {
+        [classes.contentShift]: openDrawer,
+      })}
+    >
+      <Grid item className="DrumMaster">
+        <DrumMaster
+          open={() => setDrumMasterOpen(!drumMasterOpen)}
+        ></DrumMaster>
+      </Grid>
+      {!drumMasterOpen && drumLayout}
+      {trackLayout}
+    </Grid>
+  );
 
-
+  // const samplrEditor = openLoop && (<SamplrEditor></SamplrEditor>)
 
   return (
     <div className="App">
@@ -125,10 +131,9 @@ function App() {
 
       <body className="App-body">
         {luuprPage}
+        {openLoop && (<SamplrEditor></SamplrEditor>)}
 
-        <NewTrackPopup addTrack={addTrackCallback.bind(this)}>
-          {" "}
-        </NewTrackPopup>
+        <NewTrackPopup addTrack={addTrackCallback.bind(this)}> </NewTrackPopup>
 
         <Box display="flex" justifyContent="center">
           <ThemeProvider theme={theme}>
