@@ -37,6 +37,10 @@ export default function LoopBubble(props) {
     props.playCallback();
   }
 
+  const gay = () => {
+    props.openLoopCallback(1);
+  }
+
   const ClickableCard = ({ onClick, onDoubleClick }) => {
     const [handleClick, handleDoubleClick] = useClickPreventionOnDoubleClick(
       onClick,
@@ -74,7 +78,7 @@ export default function LoopBubble(props) {
     <div>
       <ClickableCard
         onClick={annoying}
-        onDoubleClick={() => props.openLoopCallback(1)}
+        onDoubleClick={gay}
       />
     </div>
   );

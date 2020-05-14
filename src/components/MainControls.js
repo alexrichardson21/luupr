@@ -125,13 +125,18 @@ export default function MainControl(props) {
     console.log('some shit')
     props.modeCallback();
   };
+  const backButtonClick = () => {
+    if (props.openLoop) {
+      props.backCallback()
+    }
+  }
 
   return (
     <div className={classes.root}>
       <Paper className={classes.mainControlPaper}>
 
         <Grid container className={classes.mainControl} alignItems="center">
-        <IconButton className={classes.backButton}>
+        <IconButton onClick={backButtonClick} className={classes.backButton}>
           <ArrowBackIcon></ArrowBackIcon>
         </IconButton>
           <FormControl variant="filled" className={classes.formControl}>

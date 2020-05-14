@@ -1,4 +1,4 @@
-import { ButtonBase, Grid, Paper, TextField } from "@material-ui/core";
+import { ButtonBase, Grid, Paper, TextField, Drawer } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -9,14 +9,14 @@ import { black, white } from "material-ui/styles/colors";
 import React from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-const drawerWidth = 130;
+const drawerWidth = 120;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     width: drawerWidth,
-    position: "fixed",
-    right: -35,
+    // position: "relative",
+    // right: -35,
   },
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -24,12 +24,17 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     width: drawerWidth,
+    // position: "fixed",
+    // right: -35,
     flexShrink: 0,
+    
   },
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: "transparent",
     boxShadow: "none",
+    borderStyle: 'none',
+    
 
     // background: '#414141',
     // opacity: 0.0,
@@ -41,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
     background: "#212121",
     opacity: 0.5,
     borderRadius: 35,
+    borderBottomRightRadius: 0,
+    borderTopRightRadius: 0,
     marginTop: theme.spacing(1),
   },
   // necessary for content to be below app bar
@@ -52,10 +59,12 @@ const useStyles = makeStyles((theme) => ({
   },
   sequence: {
     width: drawerWidth,
-
+    borderRadius: 35,
+    borderBottomRightRadius: 0,
+    borderTopRightRadius: 0,
     height: 75,
     marginBottom: theme.spacing(1),
-    borderRadius: 35,
+    
   },
   color0: {
     color: black,
@@ -108,40 +117,49 @@ export default function PermanentDrawerRight() {
   ));
 
   return (
-    <Grid container className={classes.root}>
-      <CssBaseline />
-      {/* <Button className={classes.button}>
+    <Drawer
+      anchor="right"
+      className={classes.drawer}
+      variant="permanent"
+
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+    >
+      <Grid container className={classes.root}>
+        <CssBaseline />
+        {/* <Button className={classes.button}>
         <AddIcon></AddIcon>
         </Button> */}
-      {/* <Paper
+        {/* <Paper
         className={classes.drawerPaper}
       
       > */}
-      {/* <div className={classes.toolbar} /> */}
-      <ButtonBase
-        onClick={() =>
-          patterns < 7 ? setPatterns(patterns + 1) : setPatterns(patterns)
-        }
-        component={Paper}
-        className={classes.button}
-      >
-        <AddIcon></AddIcon>
-      </ButtonBase>
-      {/* <Divider /> */}
-      <DragDropContext>
-        <Droppable
-          classname={classes.droppable}
-          droppableId="droppable2"
-          direction="vertical"
+        {/* <div className={classes.toolbar} /> */}
+        <ButtonBase
+          onClick={() =>
+            patterns < 7 ? setPatterns(patterns + 1) : setPatterns(patterns + 1)
+          }
+          component={Paper}
+          className={classes.button}
         >
-          {(provided, snapshot) => (
-            <List ref={provided.innerRef} {...provided.droppableProps}>
-              {patternLayout}
-            </List>
-          )}
-        </Droppable>
-      </DragDropContext>
-      {/* <Divider />
+          <AddIcon></AddIcon>
+        </ButtonBase>
+        {/* <Divider /> */}
+        <DragDropContext>
+          <Droppable
+            classname={classes.droppable}
+            droppableId="droppable2"
+            direction="vertical"
+          >
+            {(provided, snapshot) => (
+              <List ref={provided.innerRef} {...provided.droppableProps}>
+                {patternLayout}
+              </List>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {/* <Divider />
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
@@ -150,7 +168,8 @@ export default function PermanentDrawerRight() {
             </ListItem>
           ))}
         </List> */}
-      {/* </Paper> */}
-    </Grid>
+        {/* </Paper> */}
+      </Grid>
+    </Drawer>
   );
 }

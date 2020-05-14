@@ -82,7 +82,7 @@ function App() {
       </header>
 
       <body className="App-body">
-      {/* <MainControls></MainControls> */}
+        {/* <MainControls></MainControls> */}
         {luuprMode && !openLoop && (
           <div>
             <LuuprPage
@@ -96,7 +96,7 @@ function App() {
             </NewTrackPopup>
 
             <Box display="flex" justifyContent="center">
-              <ThemeProvider theme={'theme'}>
+              <ThemeProvider theme={"theme"}>
                 <SimpleBottomNavigation
                   page={(val) => setCurrPage(val)}
                 ></SimpleBottomNavigation>
@@ -115,8 +115,12 @@ function App() {
   return (
     <div>
       <header className="App-header">
-        <PatternDrawer></PatternDrawer>
-        <MainControls modeCallback={() => setLuuprMode(!luuprMode)}></MainControls>
+        {!openLoop && <PatternDrawer></PatternDrawer>}
+        <MainControls
+          openLoop={openLoop}
+          backCallback={() => setOpenLoop(0)}
+          modeCallback={() => setLuuprMode(!luuprMode)}
+        ></MainControls>
       </header>
 
       <body className="App-body">

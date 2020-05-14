@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
     
     borderRadius: 20,
     // marginTop: 15,
-    marginRight: 120,
+    marginRight: 160,
     marginLeft: theme.spacing(2),
     height: 100,
-    opacity: .25,
+    opacity: .5,
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },

@@ -55,7 +55,7 @@ export default function LuuprPage(props) {
     // .filter((track) => track !== "Drum")
     .map((track, i) => (
       <Grid item>
-        <LuuprTrack>
+        <LuuprTrack
           openLoopCallback={props.openLoopCallback}
           trackType={track}
           id={i}
@@ -74,11 +74,11 @@ export default function LuuprPage(props) {
           [classes.contentShift]: props.openDrawer,
         })}
       >
-        <Grid item className="DrumMaster">
+        {/* <Grid item className="DrumMaster">
           <LuuprTrack
             open={() => setDrumMasterOpen(!drumMasterOpen)}
           ></LuuprTrack>
-        </Grid>
+        </Grid> */}
         {/* {!drumMasterOpen && drumLayout} */}
         {trackLayout}
         <NewTrackPopup addTrack={(track) => setTracks(tracks.concat([track]))}></NewTrackPopup>
