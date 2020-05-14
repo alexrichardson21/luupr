@@ -11,7 +11,7 @@ const styles = (theme) => ({
     display: "flex",
     alignItems: "center",
     boxSizing: "border-box",
-    backgroundColor: "#414141",
+    backgroundColor: "#313131",
   },
   table: {
     // temporary right-to-left patch, waiting for
@@ -32,6 +32,9 @@ const styles = (theme) => ({
   tableCell: {
     flex: 1,
   },
+  headerCell: {
+    // borderLeft: '1px solid #515151'
+  },
   noClick: {
     cursor: "initial",
   },
@@ -40,6 +43,9 @@ const styles = (theme) => ({
     width: "20vw",
     // background: "#313131"
     // border: "1px solid #000000",
+  },
+  firstRow: {
+    backgroundColor: "#414141",
   },
   oddRow: {
     background: "#515151"
@@ -72,7 +78,7 @@ class MuiVirtualizedTable extends React.PureComponent {
           component={ButtonBase}
           className={clsx(classes.tableCell, classes.flexContainer, {
             [classes.noClick]: onRowClick == null,
-          }, {[classes.oddRow]: columnIndex%2===0})}
+          }, {[classes.oddRow]: columnIndex%2===0}, {[classes.firstRow]: columnIndex%4===3})}
           variant="body"
           style={{ height: rowHeight, width: "10vw" }}
           align={
@@ -94,12 +100,13 @@ class MuiVirtualizedTable extends React.PureComponent {
     return (
       
       !columnIndex ?
-          <div className={classes.canvas}></div>
+          <canvas className={classes.canvas}></canvas>
        :
       <TableCell
         component="div"
         className={clsx(
           classes.tableCell,
+          classes.headerCell,
           classes.flexContainer,
           classes.noClick
         )}

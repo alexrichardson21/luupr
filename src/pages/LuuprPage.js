@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LuuprPage(props) {
   const classes = useStyles();
-  const [tracks, setTracks] = React.useState([]);
+  const [tracks, setTracks] = React.useState(['Drum']);
   const [drums, setDrums] = React.useState([]);
 //   const [openDrawer, toggleDrawer] = React.useState(false);
   const [drumMasterOpen, setDrumMasterOpen] = React.useState(true);

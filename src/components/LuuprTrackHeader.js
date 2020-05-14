@@ -8,6 +8,7 @@ import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 import cx from "clsx";
 import { white } from "material-ui/styles/colors";
 import React from "react";
+import { black } from "material-ui/styles/colors";
 
 const yel = yellow[200];
 
@@ -80,6 +81,30 @@ const useStyles = makeStyles(({ palette }) => ({
   trackInput: {
     width: 100,
   },
+  color0: {
+
+    color: white,
+    backgroundColor: "#FF525A",
+  },
+  // color4: {
+  //   color: black,
+  //   backgroundColor: "#66AC6A",
+  // },
+  color1: {
+    color: white,
+    backgroundColor: "#4778ff",
+  },
+  color3: {
+    color: black,
+    backgroundColor: "#FF4D9D",
+  },
+  color2: {
+    color: white,
+    backgroundColor: "#a390e4",
+
+    // color: black,
+    // backgroundColor: "#FF4D9D",
+  },
 }));
 
 const LuuprTrackHeader = (props) => {
@@ -101,7 +126,12 @@ const LuuprTrackHeader = (props) => {
     <Paper
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className={cx(styles.card, shadowStyles.root)}
+      className={cx(styles.card, shadowStyles.root, 
+        props.trackType === 'Drum' && styles.color0,
+        props.trackType === 'Samplr' && styles.color1,
+        props.trackType === 'Synthesizr' && styles.color2,
+        props.trackType === 'Audio' && styles.color3,
+      )}
     >
       {hover ? (
         <Grid

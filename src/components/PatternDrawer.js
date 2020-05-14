@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     height: 75,
     color: "#717171",
     background: "#212121",
-    opacity: 0.5,
+    opacity: 0.75,
     borderRadius: 35,
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
@@ -67,21 +67,31 @@ const useStyles = makeStyles((theme) => ({
     
   },
   color0: {
-    color: black,
-    backgroundColor: "#C2F9BB",
-  },
-  color1: {
+
     color: white,
     backgroundColor: "#FF525A",
   },
+  // color1: {
+  //   color: black,
+  //   backgroundColor: "#66AC6A",
+  // },
+  color1: {
+    color: white,
+    backgroundColor: "#4778ff",
+  },
   color2: {
-    color: black,
-    backgroundColor: "#59C3C3",
+    color: white,
+    backgroundColor: "#a390e4",
+
+    // color: black,
+    // backgroundColor: "#FF4D9D",
   },
   color3: {
     color: black,
-    backgroundColor: "#FF8E72",
+    backgroundColor: "#FF4D9D",
   },
+
+  
   textInput: {
     width: 75,
   },
@@ -89,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PermanentDrawerRight() {
   const classes = useStyles();
-  const [patterns, setPatterns] = React.useState(0);
+  const [patterns, setPatterns] = React.useState(1);
 
   const patternLayout = Array.from(Array(patterns)).map((_, i) => (
     <Draggable key={i} draggableId={String(i)} index={i}>
@@ -101,7 +111,7 @@ export default function PermanentDrawerRight() {
             i % 4 === 0 && classes.color0,
             i % 4 === 1 && classes.color1,
             i % 4 === 2 && classes.color2,
-            i % 4 === 3 && classes.color3
+            i % 4 === 3 && classes.color3,
           )}
           key={"Intro"}
           ref={provided.innerRef}
@@ -128,14 +138,6 @@ export default function PermanentDrawerRight() {
     >
       <Grid container className={classes.root}>
         <CssBaseline />
-        {/* <Button className={classes.button}>
-        <AddIcon></AddIcon>
-        </Button> */}
-        {/* <Paper
-        className={classes.drawerPaper}
-      
-      > */}
-        {/* <div className={classes.toolbar} /> */}
         <ButtonBase
           onClick={() =>
             patterns < 7 ? setPatterns(patterns + 1) : setPatterns(patterns + 1)
@@ -159,16 +161,7 @@ export default function PermanentDrawerRight() {
             )}
           </Droppable>
         </DragDropContext>
-        {/* <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
-        {/* </Paper> */}
+        {/* <Divider />*/}
       </Grid>
     </Drawer>
   );

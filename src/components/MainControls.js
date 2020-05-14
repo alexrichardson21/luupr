@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     left: theme.spacing(8),
     top: theme.spacing(2),
     zIndex: 500,
-    background: "#ff525a",
+    background: "#414141",
   },
   appGrid: {
     display: "flex",

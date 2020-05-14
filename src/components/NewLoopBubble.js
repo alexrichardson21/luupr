@@ -9,8 +9,9 @@ const useStyles = makeStyles((theme) => ({
     width: 60,
     height: 60,
     alignItems: "center",
-    background: '#313131',
-    opacity: .5,
+    color: "#717171",
+    background: "#212121",
+    opacity: 0.75,
   },
 }));
 
@@ -25,7 +26,7 @@ export default function NewLoopBubble(props) {
         >
           <Card className={classes.card}>
               <CardContent>
-                <AddIcon htmlColor='#ffffff'></AddIcon>
+                <AddIcon htmlColor='#717171'></AddIcon>
               </CardContent>
           </Card>
         </ButtonBase>

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     height: 60,
     alignItems: "center",
     // justifyItems: "center",
-    background: blue200,
+    background: '#717171',
   },
   play: {
     borderRadius: 25,

@@ -6,12 +6,16 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import LuuprTrackHeader from "./LuuprTrackHeader";
 import LoopBubble from "./LoopBubble";
 import NewLoopBubble from "./NewLoopBubble";
+import { white } from "material-ui/styles/colors";
+import { black } from "material-ui/styles/colors";
+import clsx from "clsx";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     verticalAlign: "middle",
     // background: 'linear-gradient(90deg, #515151 20%, #414141 100%)',
-    background: '#515151',
+    background: '#414141',
     borderRadius: 20,
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
@@ -36,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     alignItems: "center",
   },
+
 }));
 
 export default function LuuprTrack(props) {
@@ -82,7 +87,7 @@ export default function LuuprTrack(props) {
         className={classes.grid}
       >
         <Grid item>
-            <LuuprTrackHeader open={() => props.open()}></LuuprTrackHeader>
+            <LuuprTrackHeader trackType={props.trackType} open={() => props.open()}></LuuprTrackHeader>
         </Grid>
 
         <Grid item className={classes.LoopBubble}>

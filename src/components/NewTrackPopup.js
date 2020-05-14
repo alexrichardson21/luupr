@@ -21,14 +21,16 @@ const useStyles = makeStyles((theme) => ({
     color: blue[600],
   },
   paper: {
-    background: '#515151',
+    // background: '#515151',
     
     borderRadius: 20,
     // marginTop: 15,
     marginRight: 160,
     marginLeft: theme.spacing(2),
     height: 100,
-    opacity: .5,
+    color: "#717171",
+    background: "#212121",
+    opacity: 0.75,
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
@@ -103,7 +105,7 @@ export default function NewTrackPopup(props) {
       
       <Paper className={classes.paper}>
         <Button fullWidth className={classes.button} onClick={handleClickOpen}>
-         <AddIcon htmlColor='#ffffff'></AddIcon>
+         <AddIcon htmlColor='#717171'></AddIcon>
         </Button>
       </Paper>
    
