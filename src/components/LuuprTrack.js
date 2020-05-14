@@ -1,15 +1,11 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
-import { Box, Card, CardContent } from "@material-ui/core";
-import TrackHeader from "./TrackHeader";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import LuuprTrackHeader from "./LuuprTrackHeader";
 import LoopBubble from "./LoopBubble";
-import { grey800 } from "material-ui/styles/colors";
-import { grey600 } from "material-ui/styles/colors";
 import NewLoopBubble from "./NewLoopBubble";
-import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,10 +13,14 @@ const useStyles = makeStyles((theme) => ({
     // background: 'linear-gradient(90deg, #515151 20%, #414141 100%)',
     background: '#515151',
     borderRadius: 20,
-    marginTop: 15,
-    marginRight: 15,
-    marginLeft: 15,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    marginRight: 120,
+    marginLeft: theme.spacing(2),
     // padding: theme.spacing(25),
+  },
+  grid: {
+    height: 100
   },
   card: {
     minWidth: 100,
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   LoopBubble: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(4),
   },
   droppable: {
     display: "flex",
@@ -38,18 +38,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TrackBar(props) {
+export default function LuuprTrack(props) {
   const classes = useStyles();
   const [loops, setLoops] = React.useState(0);
-  const [isPlaying, setIsPlaying] = React.useState(false)
-  const [openLoop, setLoopOpen] = React.useState(false)
 
   const parentFunction = () => {
-    // console.log('this is happening')
     loops < 6 ? setLoops(loops + 1) : setLoops(loops);
   };
 
+  const callbackFunction = (childData) => {
+    this.setState({drumOpen: childData})
+  };
+
   const bubbleLayout = [...Array(loops).keys()].map((item) => (
+    // <Grid item className={classes.LoopBubble}>
     <Draggable key={item} draggableId={String(item)} index={item}>
       {(provided, snapshot) => (
         <Grid
@@ -63,10 +65,11 @@ export default function TrackBar(props) {
           //   provided.draggableProps.style
           // )}
         >
-          <LoopBubble openLoopCallback={props.openLoopCallback} currPlay={isPlaying} playCallback={() => setIsPlaying(!isPlaying)} id={item}></LoopBubble>
+          <LoopBubble openLoopCallback={props.openLoopCallback}></LoopBubble>
         </Grid>
       )}
     </Draggable>
+    // </Grid>
   ));
 
   return (
@@ -74,11 +77,12 @@ export default function TrackBar(props) {
       <Grid
         justify="left" // Add it here :)
         container
-        spacing={24}
+        spacing={12}
         alignItems="center"
+        className={classes.grid}
       >
         <Grid item>
-          <TrackHeader id={props.id}></TrackHeader>
+            <LuuprTrackHeader open={() => props.open()}></LuuprTrackHeader>
         </Grid>
 
         <Grid item className={classes.LoopBubble}>

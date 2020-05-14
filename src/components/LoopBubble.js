@@ -1,25 +1,24 @@
-import React from "react";
+import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, CardContent, Typography, Box, Container } from "@material-ui/core";
-import StopIcon from "@material-ui/icons/Stop";
-import { blue200 } from "material-ui/styles/colors";
 import PlayIcon from "@material-ui/icons/PlayArrow";
-import { green200 } from "material-ui/styles/colors";
+import StopIcon from "@material-ui/icons/Stop";
+import { blue200, green200 } from "material-ui/styles/colors";
+import React from "react";
 import useClickPreventionOnDoubleClick from "../doubleclick/use-click-prevention-on-double-click";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    borderRadius: 35,
-    minWidth: 100,
-    minHeight: 100,
+    borderRadius: 25,
+    width: 60,
+    height: 60,
     alignItems: "center",
     // justifyItems: "center",
     background: blue200,
   },
   play: {
-    borderRadius: 35,
-    minWidth: 100,
-    minHeight: 100,
+    borderRadius: 25,
+    width: 60,
+    height: 60,
     alignItems: "center",
     background: green200,
   },

@@ -1,27 +1,42 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import { Paper } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import { blue } from "@material-ui/core/colors";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
-import PersonIcon from "@material-ui/icons/Person";
+import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
-import Typography from "@material-ui/core/Typography";
-import { blue } from "@material-ui/core/colors";
-import { Fab } from "@material-ui/core";
+import PersonIcon from "@material-ui/icons/Person";
+import PropTypes from "prop-types";
+import React from "react";
 
 const instruments = ["Samplr", "Synthesizr", "Drum", "Audio"];
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: blue[100],
     color: blue[600],
   },
-});
+  paper: {
+    background: '#515151',
+    
+    borderRadius: 20,
+    // marginTop: 15,
+    marginRight: 120,
+    marginLeft: theme.spacing(2),
+    height: 100,
+    opacity: .25,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  button: {
+    height: 100,
+    // width: 400,
+  },
+}));
 
 function Popup(props) {
   const classes = useStyles();
@@ -71,6 +86,7 @@ Popup.propTypes = {
 export default function NewTrackPopup(props) {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(instruments[1]);
+  const classes = useStyles();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,21 +100,13 @@ export default function NewTrackPopup(props) {
 
   return (
     <div>
-      <Fab
-        color="primary"
-        aria-label="add"
-        onClick={handleClickOpen}
-        style={{
-          margin: 0,
-          top: "auto",
-          right: 40,
-          bottom: 40,
-          left: "auto",
-          position: "fixed",
-        }}
-      >
-        <AddIcon />
-      </Fab>
+      
+      <Paper className={classes.paper}>
+        <Button fullWidth className={classes.button} onClick={handleClickOpen}>
+         <AddIcon htmlColor='#ffffff'></AddIcon>
+        </Button>
+      </Paper>
+   
       <Popup
         selectedValue={selectedValue}
         open={open}

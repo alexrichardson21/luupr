@@ -1,18 +1,16 @@
-import React from "react";
+import { ButtonBase, Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Card,
-  CardContent,
-  ButtonBase,
-} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    borderRadius: 35,
-    minWidth: 100,
-    minHeight: 100,
+    borderRadius: 25,
+    width: 60,
+    height: 60,
     alignItems: "center",
+    background: '#313131',
+    opacity: .5,
   },
 }));
 
@@ -27,7 +25,7 @@ export default function NewLoopBubble(props) {
         >
           <Card className={classes.card}>
               <CardContent>
-                <AddIcon></AddIcon>
+                <AddIcon htmlColor='#ffffff'></AddIcon>
               </CardContent>
           </Card>
         </ButtonBase>

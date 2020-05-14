@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 500,
     /* margin-bottom: 20px; */
     /* bottom: "auto"; */
-    marginLeft: 20,
-    marginTop: 20,
+    // marginLeft: 20,
+    // marginTop: 20,
     // height: 90,
     // background: 'linear-gradient(45deg, #bc62d9 20%, #FF8E53 90%)',
     background: "#313131",
@@ -158,6 +158,26 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+  },
+  drawerOpen: {
+    background: "#414141",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerClose: {
+    background: "#414141",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1,
+    },
   },
   drawerPaper: {
     width: drawerWidth,
@@ -258,7 +278,7 @@ export default function PersistentDrawerLeft(props) {
           />
         </FormControl>
 
-        <Divider className={classes.divider} orientation="vertical" />
+        <Divider className={classes.divider} flexItem={true} orientation="vertical" />
 
         <FormControl variant="standard" className={classes.formControl}>
           <Select
@@ -287,7 +307,7 @@ export default function PersistentDrawerLeft(props) {
           {minor ? "minor" : "major"}
         </Button>
 
-        <Divider className={classes.divider} orientation="vertical" />
+        <Divider className={classes.divider} flexItem={true} orientation="vertical" />
 
         <IconButton className={classes.button}>
           <PlayIcon />
@@ -301,10 +321,17 @@ export default function PersistentDrawerLeft(props) {
       </Paper>
 
       <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
+        }}
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
