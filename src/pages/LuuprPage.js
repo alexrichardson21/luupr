@@ -4,10 +4,29 @@ import clsx from "clsx";
 import React from "react";
 import LuuprTrack from "../components/LuuprTrack";
 import NewTrackPopup from "../components/NewTrackPopup";
+import FileUpload from "../components/FileUpload";
+import AddIcon from "@material-ui/icons/Add";
+import { Paper, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   luuprPage: {
     display: "flex",
+  },
+  newTrackPaper: {
+    borderRadius: 20,
+    // marginTop: 15,
+    marginRight: 160,
+    marginLeft: theme.spacing(2),
+    height: 100,
+    color: "#717171",
+    background: "#212121",
+    opacity: 0.75,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  button: {
+    height: 100,
+    // width: 400,
   },
   paper: {
     // padding: theme.spacing(1),
@@ -36,35 +55,38 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LuuprPage(props) {
   const classes = useStyles();
-  const [tracks, setTracks] = React.useState(['Drum']);
-  const [drums, setDrums] = React.useState([]);
-//   const [openDrawer, toggleDrawer] = React.useState(false);
-  const [drumMasterOpen, setDrumMasterOpen] = React.useState(true);
-//   const [currPage, setCurrPage] = React.useState(0);
-  const [openLoop, setOpenLoop] = React.useState(0);
+  // const [tracks, setTracks] = React.useState([{ type: "Drum", props: {} }]);
+  const [newTrackPopup, setNewTrackPopup] = React.useState(false);
+  const [openFilePopup, setOpenFilePopup] = React.useState(false);
 
-  // const drumLayout = tracks
-  //   .filter((track) => track === "Drum")
-  //   .map((track) => (
-  //     <Grid item>
-  //       <DrumTrackBar></DrumTrackBar>
-  //     </Grid>
-  //   ));
-
-  const trackLayout = tracks
+  const trackLayout = props.tracks
     // .filter((track) => track !== "Drum")
     .map((track, i) => (
       <Grid item>
         <LuuprTrack
           openLoopCallback={props.openLoopCallback}
-          trackType={track}
+          trackType={track.type}
+          trackProps={track.props}
           id={i}
         ></LuuprTrack>
       </Grid>
     ));
 
+  const newTrack = (
+    <Paper className={classes.newTrackPaper}>
+      <Button
+        fullWidth
+        className={classes.button}
+        onClick={() => setNewTrackPopup(true)}
+      >
+        <AddIcon htmlColor="#717171"></AddIcon>
+      </Button>
+    </Paper>
+  );
+
   return (
     <div className="luuprPage">
+      {/* TRACK LAYOUT */}
       <Grid
         container
         direction="column"
@@ -74,15 +96,17 @@ export default function LuuprPage(props) {
           [classes.contentShift]: props.openDrawer,
         })}
       >
-        {/* <Grid item className="DrumMaster">
-          <LuuprTrack
-            open={() => setDrumMasterOpen(!drumMasterOpen)}
-          ></LuuprTrack>
-        </Grid> */}
-        {/* {!drumMasterOpen && drumLayout} */}
         {trackLayout}
-        <NewTrackPopup addTrack={(track) => setTracks(tracks.concat([track]))}></NewTrackPopup>
+        {newTrack}
       </Grid>
+
+      {/* NEW TRACK STUFF */}
+      <NewTrackPopup
+        addTrack={props.addTrack}
+        newTrackClose={() => setNewTrackPopup(false)}
+        fileOpenCallback={() => setOpenFilePopup(true)}
+        open={newTrackPopup}
+      ></NewTrackPopup>
     </div>
   );
 }

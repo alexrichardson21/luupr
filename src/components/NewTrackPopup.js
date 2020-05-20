@@ -1,4 +1,4 @@
-import { Paper } from "@material-ui/core";
+import { Paper, FormControl, Input } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import { blue } from "@material-ui/core/colors";
@@ -12,7 +12,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import PersonIcon from "@material-ui/icons/Person";
 import PropTypes from "prop-types";
-import React from "react";
+import FileUpload from './FileUpload'
+import React, { useEffect } from "react";
 
 const instruments = ["Samplr", "Synthesizr", "Drum", "Audio"];
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     // background: '#515151',
-    
+
     borderRadius: 20,
     // marginTop: 15,
     marginRight: 160,
@@ -51,6 +52,10 @@ function Popup(props) {
   const handleListItemClick = (value) => {
     onClose(value);
   };
+
+  
+
+
 
   return (
     <Dialog
@@ -87,6 +92,9 @@ Popup.propTypes = {
 
 export default function NewTrackPopup(props) {
   const [open, setOpen] = React.useState(false);
+  const [openFilePopup, setOpenFilePopup] = React.useState(false);
+  const [currTrackInfo, setCurrTrackInfo] = React.useState({})
+
   const [selectedValue, setSelectedValue] = React.useState(instruments[1]);
   const classes = useStyles();
 
@@ -95,25 +103,27 @@ export default function NewTrackPopup(props) {
   };
 
   const handleClose = (value) => {
-    setOpen(false);
     setSelectedValue(value);
-    props.addTrack(value)
+    
+    
+    if (value==='Samplr'){
+      setOpenFilePopup(true)
+      // props.fileOpenCallback()
+    } else {
+      props.addTrack(value);
+    }
+    
+    props.newTrackClose()
   };
 
   return (
     <div>
-      
-      <Paper className={classes.paper}>
-        <Button fullWidth className={classes.button} onClick={handleClickOpen}>
-         <AddIcon htmlColor='#717171'></AddIcon>
-        </Button>
-      </Paper>
-   
-      <Popup
-        selectedValue={selectedValue}
-        open={open}
-        onClose={handleClose}
-      />
+      <Popup selectedValue={selectedValue} open={props.open} onClose={handleClose} />
+      <FileUpload
+        filePopupClose={() => setOpenFilePopup(false)}
+        open={openFilePopup}
+        addTrack={props.addTrack}
+      ></FileUpload>
     </div>
   );
 }

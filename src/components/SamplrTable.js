@@ -5,6 +5,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 import { AutoSizer, Column, Table } from "react-virtualized";
+import VertWavCanvas from "./VertWavCanvas";
 
 const styles = (theme) => ({
   flexContainer: {
@@ -40,7 +41,7 @@ const styles = (theme) => ({
   },
   canvas: {
     height: 80,
-    width: "20vw",
+    width: 200,
     // background: "#313131"
     // border: "1px solid #000000",
   },
@@ -53,6 +54,8 @@ const styles = (theme) => ({
 });
 
 class MuiVirtualizedTable extends React.PureComponent {
+
+
   static defaultProps = {
     headerHeight: 80,
     rowHeight: 80,
@@ -70,7 +73,7 @@ class MuiVirtualizedTable extends React.PureComponent {
     const { columns, classes, rowHeight, onRowClick } = this.props;
     if (columnIndex === 0) {
       return (
-        <canvas className={classes.canvas}></canvas>
+        <VertWavCanvas height={rowHeight} width={200}></VertWavCanvas>
       )
     } else {
       return (
@@ -100,7 +103,20 @@ class MuiVirtualizedTable extends React.PureComponent {
     return (
       
       !columnIndex ?
-          <canvas className={classes.canvas}></canvas>
+      <TableCell
+      component="div"
+      className={clsx(
+        classes.canvas,
+        classes.headerCell,
+        classes.flexContainer,
+        classes.noClick
+      )}
+      variant="head"
+      style={{ height: headerHeight, width: '200px', color: "white", background: "#313131" }}
+      align={columns[columnIndex].numeric || false ? "right" : "left"}
+    >
+      <span>{label}</span>
+    </TableCell>
        :
       <TableCell
         component="div"
@@ -208,7 +224,7 @@ export default function ReactVirtualizedTable() {
         rowGetter={({ index }) => rows[index]}
         columns={[
           {
-            width: "20%",
+            width: "200",
             dataKey: "id",
           },
           {

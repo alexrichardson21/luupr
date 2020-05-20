@@ -57,7 +57,7 @@ export default function LuuprTrack(props) {
 
   const bubbleLayout = [...Array(loops).keys()].map((item) => (
     // <Grid item className={classes.LoopBubble}>
-    <Draggable key={item} draggableId={String(item)} index={item}>
+    <Draggable key={item+1} draggableId={String(item+1)} index={item}>
       {(provided, snapshot) => (
         <Grid
           item
@@ -70,7 +70,7 @@ export default function LuuprTrack(props) {
           //   provided.draggableProps.style
           // )}
         >
-          <LoopBubble openLoopCallback={props.openLoopCallback}></LoopBubble>
+          <LoopBubble id={item+1} trackId={props.id} trackProps={props.trackProps} openLoopCallback={props.openLoopCallback}></LoopBubble>
         </Grid>
       )}
     </Draggable>

@@ -2,6 +2,7 @@ import { ButtonBase, Grid, Paper, Slider } from "@material-ui/core";
 import yellow from "@material-ui/core/colors/yellow";
 import { makeStyles } from "@material-ui/core/styles";
 import HeadsetIcon from "@material-ui/icons/Headset";
+import AlbumIcon from "@material-ui/icons/Album";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import { useGutterBorderedGridStyles } from "@mui-treasury/styles/grid/gutterBordered";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
@@ -82,7 +83,6 @@ const useStyles = makeStyles(({ palette }) => ({
     width: 100,
   },
   color0: {
-
     color: white,
     backgroundColor: "#FF525A",
   },
@@ -126,11 +126,13 @@ const LuuprTrackHeader = (props) => {
     <Paper
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className={cx(styles.card, shadowStyles.root, 
-        props.trackType === 'Drum' && styles.color0,
-        props.trackType === 'Samplr' && styles.color1,
-        props.trackType === 'Synthesizr' && styles.color2,
-        props.trackType === 'Audio' && styles.color3,
+      className={cx(
+        styles.card,
+        shadowStyles.root,
+        props.trackType === "Drum" && styles.color0,
+        props.trackType === "Samplr" && styles.color1,
+        props.trackType === "Synthesizr" && styles.color2,
+        props.trackType === "Audio" && styles.color3
       )}
     >
       {hover ? (
@@ -141,7 +143,7 @@ const LuuprTrackHeader = (props) => {
           justify="center"
           alignItems="center"
         >
-          <Grid  item xs={12}>
+          <Grid item xs={12}>
             <Slider className={styles.volume}></Slider>
           </Grid>
           <Grid item xs={6}>
@@ -164,7 +166,12 @@ const LuuprTrackHeader = (props) => {
           alignItems="center"
         >
           <Grid item>
-            <HeadsetIcon htmlColor="#FFFFFF" fontSize="large"></HeadsetIcon>
+            {props.trackType === "Samplr" && (
+              <AlbumIcon htmlColor="#FFFFFF" fontSize="large"></AlbumIcon>
+            )}
+            {props.trackType !== "Samplr" && (
+              <HeadsetIcon htmlColor="#FFFFFF" fontSize="large"></HeadsetIcon>
+            )}
           </Grid>
         </Grid>
       )}

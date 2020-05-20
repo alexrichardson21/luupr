@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     height: 60,
     alignItems: "center",
     // justifyItems: "center",
-    background: '#717171',
+    background: '#818181',
   },
   play: {
     borderRadius: 25,
@@ -31,6 +31,7 @@ export default function LoopBubble(props) {
   const classes = useStyles();
   const [isShown, setIsShown] = React.useState(false);
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const annoying = () => {
     setIsPlaying(!isPlaying); 
@@ -38,7 +39,8 @@ export default function LoopBubble(props) {
   }
 
   const gay = () => {
-    props.openLoopCallback(1);
+    props.openLoopCallback({trackId: props.trackId, loopId: props.id});
+    setOpen(true);
   }
 
   const ClickableCard = ({ onClick, onDoubleClick }) => {
@@ -59,12 +61,12 @@ export default function LoopBubble(props) {
           <CardContent>
             {isPlaying ? (
               <div className={classes.cardContent}>
-                <StopIcon></StopIcon>
+                <StopIcon ></StopIcon>
               </div>
             ) : (
               <div className={classes.cardContent}>
                 
-                <PlayIcon></PlayIcon>
+                <PlayIcon htmlColor='#515151'></PlayIcon>
 
               </div>
             )}

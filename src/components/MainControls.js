@@ -105,7 +105,7 @@ export default function MainControl(props) {
 //   const theme = useTheme();
 //   const [open, setOpen] = React.useState(false);
   const [key, setKey] = React.useState("C");
-  const [tempo, setTempo] = React.useState(120);
+  // const [tempo, setTempo] = React.useState(props.tempo);
   const [minor, setMinor] = React.useState(false);
   const [mode, setMode] = React.useState(true);
 
@@ -114,7 +114,8 @@ export default function MainControl(props) {
   };
   const handleTempoChange = (event) => {
     if (event.target.value >= 60 && event.target.value <= 300) {
-      setTempo(event.target.value);
+      // setTempo(event.target.value);
+      props.tempoCallback(event.target.value);
     }
   };
   const toggleMinor = (event) => {
@@ -144,7 +145,7 @@ export default function MainControl(props) {
               className={classes.formControl}
               id="filled-adornment-amount"
               // classname={classes.tempoInput}
-              value={tempo}
+              value={props.tempo}
               type="number"
               onChange={handleTempoChange}
               endAdornment={

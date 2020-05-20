@@ -8,6 +8,7 @@ import PatternDrawer from "./components/PatternDrawer";
 import SimpleBottomNavigation from "./deprecated/SimpleBottomNavigation.js";
 import LuuprPage from "./pages/LuuprPage";
 import SamplrEditor from "./pages/SamplrEditor";
+import Sound from "react-sound";
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -38,14 +39,13 @@ import SamplrEditor from "./pages/SamplrEditor";
 // }));
 
 function App() {
-  const [tracks, setTracks] = React.useState([]);
-  const [drums, setDrums] = React.useState([]);
+  const [tracks, setTracks] = React.useState([{ type: "Drum", props: {} }]);
   const [openDrawer, toggleDrawer] = React.useState(false);
-  const [drumMasterOpen, setDrumMasterOpen] = React.useState(true);
   const [currPage, setCurrPage] = React.useState(0);
   const [openLoop, setOpenLoop] = React.useState(0);
   const [isDarkMode, setDarkMode] = React.useState(true);
   const [luuprMode, setLuuprMode] = React.useState(true);
+  const [tempo, setTempo] = React.useState(120);
 
   // let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   // prefersDarkMode = true;
@@ -73,53 +73,16 @@ function App() {
     setTracks(tracks.concat([newTrack]));
   };
 
-  const stuffForLaterMaybe = (
-    <div>
-      <header className="App-header">
-        {/* <NewHeader></NewHeader> */}
-        {/* <SideDrawer toggle={toggleDrawerCallback.bind(this)}></SideDrawer> */}
-        <MainControls></MainControls>
-      </header>
-
-      <body className="App-body">
-        {/* <MainControls></MainControls> */}
-        {luuprMode && !openLoop && (
-          <div>
-            <LuuprPage
-              openLoopCallback={(num) => setOpenLoop(num)}
-              tracks={tracks}
-              openDrawer={openDrawer}
-            ></LuuprPage>
-
-            <NewTrackPopup addTrack={addTrackCallback.bind(this)}>
-              {" "}
-            </NewTrackPopup>
-
-            <Box display="flex" justifyContent="center">
-              <ThemeProvider theme={"theme"}>
-                <SimpleBottomNavigation
-                  page={(val) => setCurrPage(val)}
-                ></SimpleBottomNavigation>
-              </ThemeProvider>
-            </Box>
-          </div>
-        )}
-
-        {openLoop && <SamplrEditor></SamplrEditor>}
-      </body>
-
-      <footer></footer>
-    </div>
-  );
-
   return (
     <div>
       <header className="App-header">
         {!openLoop && <PatternDrawer></PatternDrawer>}
         <MainControls
           openLoop={openLoop}
-          backCallback={() => setOpenLoop(0)}
+          backCallback={() => setOpenLoop(false)}
           modeCallback={() => setLuuprMode(!luuprMode)}
+          tempo={tempo}
+          tempoCallback={(bpm) => setTempo(bpm)}
         ></MainControls>
       </header>
 
@@ -128,14 +91,20 @@ function App() {
           <div>
             <LuuprPage
               openLoopCallback={(num) => setOpenLoop(num)}
-              // addTrack={(track) => setTracks(tracks.concat([track]))}
-              // tracks={tracks}
+              addTrack={(track) => setTracks(tracks.concat([track]))}
+              tracks={tracks}
               openDrawer={openDrawer}
             ></LuuprPage>
           </div>
         )}
 
-        {openLoop && <SamplrEditor></SamplrEditor>}
+        {openLoop && (
+          <SamplrEditor
+            trackProps={tracks[openLoop.trackId]}
+            openLoop={openLoop}
+            tempoCallback={(bpm) => setTempo(bpm)}
+          ></SamplrEditor>
+        )}
       </body>
 
       <footer></footer>
