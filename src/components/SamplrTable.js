@@ -73,7 +73,7 @@ class MuiVirtualizedTable extends React.PureComponent {
     const { columns, classes, rowHeight, onRowClick } = this.props;
     if (columnIndex === 0) {
       return (
-        <VertWavCanvas height={rowHeight} width={200}></VertWavCanvas>
+        <VertWavCanvas data={props.trackProps.props.file} height={rowHeight} width={200}></VertWavCanvas>
       )
     } else {
       return (

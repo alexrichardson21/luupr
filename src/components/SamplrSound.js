@@ -36,7 +36,7 @@ const SamplrSound = (props) => {
   const [note, setNote] = React.useState(0);
   const [play, setPlay] = React.useState(false);
   const [url, setUrl] = React.useState(new URL("http://127.0.0.1:5000/path"))
-  const [urlProps, setUrlProps] = React.useState(new URLSearchParams({'name': props.trackProps.props.file}))
+  const [urlProps, setUrlProps] = React.useState(new URLSearchParams({'name': props.trackProps.props.file.name}))
   const [position, setPosition] = React.useState(props.downbeats[0].time * 1000)
   
   // const url = String((new URL("http://127.0.0.1:5000/path")).searchParams.append('name', props.trackProps.props.file));
@@ -94,13 +94,13 @@ const SamplrSound = (props) => {
 
       <Sound
         // autoLoad={true}
-        // url={'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3'}
-        url={String(url) + '?' + String(urlProps)}
+        url={'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3'}
+        // url={String(url) + '?' + String(urlProps)}
         playFromPosition={props.downbeats[note].time * 1000}
         // onPlaying={({ position }) => setPosition(position)}
-        playStatus={!play ? Sound.status.STOP : Sound.status.PLAYING}
+        playStatus={!play ? Sound.status.STOPPED : Sound.status.PLAYING}
         
-        // onBufferChange={() => }
+        onBufferChange={() => console.log('fuckabuffa')}
       />
     </div>
   );

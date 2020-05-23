@@ -123,6 +123,7 @@ export default function NewTrackPopup(props) {
         filePopupClose={() => setOpenFilePopup(false)}
         open={openFilePopup}
         addTrack={props.addTrack}
+        loadingCallback={props.loadingCallback}
       ></FileUpload>
     </div>
   );

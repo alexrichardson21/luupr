@@ -7,6 +7,7 @@ import NewTrackPopup from "../components/NewTrackPopup";
 import FileUpload from "../components/FileUpload";
 import AddIcon from "@material-ui/icons/Add";
 import { Paper, Button } from "@material-ui/core";
+import LoadingTrack from './../components/LoadingTrack'
 
 const useStyles = makeStyles((theme) => ({
   luuprPage: {
@@ -58,6 +59,7 @@ export default function LuuprPage(props) {
   // const [tracks, setTracks] = React.useState([{ type: "Drum", props: {} }]);
   const [newTrackPopup, setNewTrackPopup] = React.useState(false);
   const [openFilePopup, setOpenFilePopup] = React.useState(false);
+  const [trackLoading, setTrackLoading] = React.useState(false);
 
   const trackLayout = props.tracks
     // .filter((track) => track !== "Drum")
@@ -97,6 +99,7 @@ export default function LuuprPage(props) {
         })}
       >
         {trackLayout}
+        {trackLoading && (<LoadingTrack></LoadingTrack>)}
         {newTrack}
       </Grid>
 
@@ -106,6 +109,7 @@ export default function LuuprPage(props) {
         newTrackClose={() => setNewTrackPopup(false)}
         fileOpenCallback={() => setOpenFilePopup(true)}
         open={newTrackPopup}
+        loadingCallback={(status) => setTrackLoading(status)}
       ></NewTrackPopup>
     </div>
   );

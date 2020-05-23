@@ -1,6 +1,7 @@
 # from api.beat_detector import slicer
 import os
 from flask import Flask, Response, request, send_file, flash, redirect, url_for
+# from flask_uploads import UploadSet, configure_uploads, DATA
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = '/home/richardsonalex101/luupr/public/'
@@ -29,13 +30,13 @@ def upload_file():
         # check if the post request has the file part
         if 'file' not in request.files:
             print('No file part')
-            return redirect(request.url)
+            # return redirect(request.url)
         file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
+        # # if user does not select file, browser also
+        # # submit an empty part without filename
         if file.filename == '':
             print('No selected file')
-            return redirect(request.url)
+            # return redirect(request.url)
         if file and allowed_file(file.filename):
             # filename = secure_filename(file.filename)
             filename = file.filename
@@ -62,12 +63,12 @@ def view_method():
 
     #  print(request.args['name'])
 
-     path_to_file = "./../../public/%s" % request.args['name']
-    #  path_to_file = "./../../public/Cactus.mp3"
+    #  path_to_file = UPLOAD_FOLDER + request.args['name']
+     path_to_file = "./../../public/song.mp3"
 
      return send_file(
          path_to_file, 
-         mimetype="audio/x-mplayer2", 
+         mimetype="audio/mpeg", 
          as_attachment=False, 
         #  attachment_filename="song.mp3"
         )
@@ -95,6 +96,8 @@ def streamogg():
                 yield data
                 data = fogg.read(1024)
     return Response(generate(), mimetype="audio/ogg")
+
+# photos = UploadSet('photos', IMAGES)
 
 if __name__ == "__main__":
     # app.secret_key = 'super secret key'

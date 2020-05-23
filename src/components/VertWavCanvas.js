@@ -1,12 +1,29 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import Konva from "konva";
 import { render } from "react-dom";
 import { Stage, Layer, Rect, Text, Circle, Line } from "react-konva";
-import { TableCell, makeStyles } from "@material-ui/core";
+import {
+  TableCell,
+  makeStyles,
+  ButtonBase,
+  Paper,
+  TableContainer,
+  TableHead,
+} from "@material-ui/core";
 import { white } from "material-ui/styles/colors";
+import { TableRow, Table, TableBody } from "material-ui";
 const useStyles = makeStyles((theme) => ({
+  // root: {
+  //   color: white,
+  // },
   root: {
-    color: white,
+    // width: "100%",
+    position: 'relative',
+    left: -15,
+    width: 200,
+  },
+  container: {
+    maxHeight: 440,
   },
   canvas: {
     display: "flex",
@@ -19,24 +36,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VertWavCanvas(props) {
   const classes = useStyles();
-  const [patterns, setPatterns] = React.useState(1);
+  const [canvasData, setCanvasData] = React.useState([]);
+
 
   return (
-    <TableCell
-      component='div'
-      className={classes.canvas}
-      style={{ height: props.height, width: props.width }}
-    >
-      <Stage width={210} height={props.height}>
-      <Layer>
-        <Line
-          x={105}
-          y={0}
-          points={[0, 0, -90, 10, 100, 20]}
-          stroke="white"
-        />
-      </Layer>
-      </Stage>
-    </TableCell>
+    <div >
+      {/* <ButtonBase className={classes.root}> */}
+        <Stage width={200} height={props.height}>
+          <Layer>
+            <Line x={100} y={0} points={props.data} stroke="white" />
+          </Layer>
+        </Stage>
+      {/* </ButtonBase> */}
+    </div>
   );
 }

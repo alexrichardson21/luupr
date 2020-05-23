@@ -67,7 +67,7 @@ export default function FileUpload(props) {
 
       let url = new URL("https://api.sonicAPI.com/analyze/tempo"),
         params = {
-          access_id: "9c745103-ac2a-473d-bcae-a07e242b009c",
+          access_id: "4b2f2f2c-1511-4079-8818-87aa1c4d8c00",
           format: "json",
         };
 
@@ -90,7 +90,7 @@ export default function FileUpload(props) {
           props.addTrack({
             type: "Samplr",
             props: {
-              file: file.name,
+              file: file,
               clicksPerBar: result["auftakt_result"]["clicks_per_bar"],
               clicks: result["auftakt_result"]["click_marks"],
               downbeats: result["auftakt_result"]["click_marks"].filter(
@@ -98,15 +98,20 @@ export default function FileUpload(props) {
               ),
             },
           });
-          setLoad(false);
+          props.loadingCallback(false);
+          console.log('Endddd')
         })
         .catch((error) => {
           console.log(error);
-          setLoad(false);
+          props.loadingCallback(false);
         });
     }
+    
+    console.log('STTTTArt')
+    props.loadingCallback(true);
     fetchSampleTempo();
-    sendFile();
+    // sendFile();
+    
   }, [file]);
 
   const handleSubmit = (event) => {
