@@ -50,6 +50,8 @@ export default function FileUpload(props) {
   const [clicksPerBar, setClicksPerBar] = React.useState(0);
   const [downbeats, setDownbeats] = React.useState([]);
   const [load, setLoad] = React.useState(false);
+  const [fileProps, setFileProps] = React.useState(undefined);
+  const [canvasData, setCanvasData] = React.useState(undefined);
   const fileInput = React.createRef();
 
   useEffect(() => {
@@ -67,7 +69,7 @@ export default function FileUpload(props) {
 
       let url = new URL("https://api.sonicAPI.com/analyze/tempo"),
         params = {
-          access_id: "4b2f2f2c-1511-4079-8818-87aa1c4d8c00",
+          access_id: "20c0ebce-64f8-4049-a41b-f401cd1c805c",
           format: "json",
         };
 
@@ -84,35 +86,102 @@ export default function FileUpload(props) {
           // }
           return res.json();
         })
-        // .then((res) => res.json())
         .then((result) => {
           // setTempo(result["auftakt_result"]["overall_tempo"]);
-          props.addTrack({
-            type: "Samplr",
-            props: {
-              file: file,
-              clicksPerBar: result["auftakt_result"]["clicks_per_bar"],
-              clicks: result["auftakt_result"]["click_marks"],
-              downbeats: result["auftakt_result"]["click_marks"].filter(
-                (x) => x.downbeat === "true"
-              ),
-            },
-          });
-          props.loadingCallback(false);
-          console.log('Endddd')
+          setDownbeats(
+            result["auftakt_result"]["click_marks"].filter(
+              (x) => x.downbeat === "true"
+            )
+          );
         })
         .catch((error) => {
           console.log(error);
           props.loadingCallback(false);
         });
     }
-    
-    console.log('STTTTArt')
+
+    console.log("STTTTArt");
     props.loadingCallback(true);
     fetchSampleTempo();
     // sendFile();
-    
   }, [file]);
+
+  useEffect(() => {
+    var context = new AudioContext();
+    async function drawAudio() {
+      file
+        .arrayBuffer()
+        .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+        .then((audioBuffer) =>
+          setCanvasData(toPoints(filterData(split(audioBuffer))))
+        );
+    }
+    if (file) {
+      drawAudio();
+    }
+  }, [downbeats]);
+
+  useEffect(() => {
+    if (file && canvasData && downbeats) {
+      props.addTrack({
+        type: "Samplr",
+        props: {
+          file: file,
+          downbeats: downbeats,
+          canvasData: canvasData,
+        },
+      });
+      props.loadingCallback(false);
+      console.log("Endddd");
+    }
+  }, [canvasData]);
+
+  const filterData = (data) => {
+    const samples = 80; // Number of samples we want to have in our final data set
+    return data.map((val, i) => {
+      const rawData = val; // We only need to work with one channel of data
+      const blockSize = Math.floor(rawData.length / samples); // the number of samples in each subdivision
+      const filteredData = [];
+      for (let i = 0; i < samples; i++) {
+        let blockStart = blockSize * i; // the location of the first sample in the block
+        let sum = 0;
+        for (let j = 0; j < blockSize; j++) {
+          sum = sum + Math.abs(rawData[blockStart + j]); // find the sum of all the samples in the block
+        }
+        filteredData.push(sum / blockSize); // divide the sum by the block size to get the average
+      }
+      // console.log(filteredData)
+      return filteredData;
+    });
+  };
+
+  const split = (audioBuffer) => {
+    const rawData = audioBuffer.getChannelData(0);
+    // const max = Math.max(...rawData);
+    // console.log(audioBuffer.getChannelData(0))
+    const downbeatsInSamples = downbeats.map((beat) =>
+      Math.round(beat.time * audioBuffer.sampleRate)
+    );
+    const sections = [];
+    for (let index = 1; index < downbeatsInSamples.length; index++) {
+      sections.push(
+        rawData.slice(downbeatsInSamples[index - 1], downbeatsInSamples[index])
+      );
+    }
+    // console.log(sections)
+    return sections;
+  };
+
+  const toPoints = (filteredData) => {
+    // console.log(filteredData)
+    return filteredData.map((pane) => {
+      return pane
+        .map((val, i) => {
+          return [val * 200, i];
+        })
+        .flat();
+    });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();

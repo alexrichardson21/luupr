@@ -40,6 +40,7 @@ import Sound from "react-sound";
 
 function App() {
   const [tracks, setTracks] = React.useState([{ type: "Drum", props: {} }]);
+  const [loops, setLoops] = React.useState([[]])
   const [openDrawer, toggleDrawer] = React.useState(false);
   const [currPage, setCurrPage] = React.useState(0);
   const [openLoop, setOpenLoop] = React.useState(0);

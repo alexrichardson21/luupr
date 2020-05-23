@@ -50,15 +50,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#414141",
   },
   oddRow: {
-    background: "#515151"
+    background: "#515151",
   },
   on: {
-    background:  '#883735'
-  }
-  
-  
-  
-  
+    background: "#883735",
+  },
+
   // root: {
   //   color: white,
   // },
@@ -117,8 +114,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SamplrTable(props) {
   const classes = useStyles();
-  const rowHeight = 42;
-  const headerHeight = 42;
+  const rowHeight = 80;
+  const headerHeight = 40;
   const columns = 8;
   const [rows, setRows] = React.useState(
     Array(props.downbeats.length).fill(Array(columns).fill(false))
@@ -139,14 +136,17 @@ export default function SamplrTable(props) {
           classes.flexContainer,
           { [classes.oddRow]: columnIndex % 2 === 0 },
           { [classes.firstRow]: columnIndex % 4 === 3 },
-          { [classes.on]: cellData },
+          { [classes.on]: cellData }
         )}
         variant="body"
         style={{ height: rowHeight }}
         align="left"
       >
         <ButtonBase
-          onClick={() => noteChange(rowIndex, columnIndex - 1)}
+          onClick={() => {
+            noteChange(rowIndex, columnIndex - 1);
+            console.log("fuck this");
+          }}
           className={cellData ? classes.on : classes.off}
           style={{ height: rowHeight, width: width }}
         />
@@ -156,19 +156,24 @@ export default function SamplrTable(props) {
 
   const canvasRenderer = ({ cellData, rowIndex }) => {
     return (
-      <ButtonBase>
-        <TableCell
-          component="div"
-          className={clsx(classes.tableCell, classes.flexContainer)}
-          variant="body"
-          style={{ height: rowHeight }}
-          align="left"
-        >
-          {/* {cellData} */}
-          {/* some canvas shit */}
-          <VertWavCanvas data={props.canvasData[rowIndex]} height={rowHeight} width={200} />
-        </TableCell>
-      </ButtonBase>
+      <TableCell
+        component="div"
+        className={clsx(classes.tableCell, classes.flexContainer)}
+        variant="body"
+        style={{ height: rowHeight }}
+        align="left"
+      >
+        {/* <ButtonBase style={{ height: rowHeight, width: 200 }}  onMouseUp={props.stop()}> */}
+        <VertWavCanvas
+          data={props.canvasData[rowIndex]}
+          play={props.play}
+          stop={props.stop}
+          rowIndex={rowIndex}
+          height={rowHeight}
+          width={200}
+        />
+        {/* </ButtonBase> */}
+      </TableCell>
     );
   };
 

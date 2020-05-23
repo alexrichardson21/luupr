@@ -80,7 +80,7 @@ const SamplrSound = (props) => {
 
   return (
     <div>
-      <KeyboardEventHandler
+      {/* <KeyboardEventHandler
         handleEventType="keydown"
         handleKeys={midKeyRow}
         onKeyEvent={midRowDown}
@@ -90,15 +90,15 @@ const SamplrSound = (props) => {
         handleEventType="keyup"
         handleKeys={midKeyRow}
         onKeyEvent={midRowUp}
-      />
+      /> */}
 
       <Sound
         // autoLoad={true}
         url={'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3'}
         // url={String(url) + '?' + String(urlProps)}
-        playFromPosition={props.downbeats[note].time * 1000}
+        playFromPosition={props.downbeats[props.playIndex].time * 1000}
         // onPlaying={({ position }) => setPosition(position)}
-        playStatus={!play ? Sound.status.STOPPED : Sound.status.PLAYING}
+        playStatus={!props.play ? Sound.status.STOPPED : Sound.status.PLAYING}
         
         onBufferChange={() => console.log('fuckabuffa')}
       />

@@ -41,13 +41,13 @@ export default function VertWavCanvas(props) {
 
   return (
     <div >
-      {/* <ButtonBase className={classes.root}> */}
+      <ButtonBase onMouseDown={() => props.play(props.rowIndex)} onMouseUp={() => props.stop()} className={classes.root}>
         <Stage width={200} height={props.height}>
           <Layer>
             <Line x={100} y={0} points={props.data} stroke="white" />
           </Layer>
         </Stage>
-      {/* </ButtonBase> */}
+      </ButtonBase>
     </div>
   );
 }
