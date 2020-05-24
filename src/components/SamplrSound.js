@@ -78,6 +78,11 @@ const SamplrSound = (props) => {
 
   // url = String(url)
 
+  // setTimeout(() => {
+
+  // }, props.globalTempo / 60 * 1000)
+
+
   return (
     <div>
       {/* <KeyboardEventHandler
@@ -93,13 +98,13 @@ const SamplrSound = (props) => {
       /> */}
 
       <Sound
-        // autoLoad={true}
+        autoLoad={true}
         url={'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3'}
         // url={String(url) + '?' + String(urlProps)}
         playFromPosition={props.downbeats[props.playIndex].time * 1000}
         // onPlaying={({ position }) => setPosition(position)}
         playStatus={!props.play ? Sound.status.STOPPED : Sound.status.PLAYING}
-        
+        playbackRate={props.globalTempo/props.trackTempo}
         onBufferChange={() => console.log('fuckabuffa')}
       />
     </div>

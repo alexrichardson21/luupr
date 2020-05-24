@@ -87,7 +87,7 @@ export default function FileUpload(props) {
           return res.json();
         })
         .then((result) => {
-          // setTempo(result["auftakt_result"]["overall_tempo"]);
+          setTempo(result["auftakt_result"]["overall_tempo"]);
           setDownbeats(
             result["auftakt_result"]["click_marks"].filter(
               (x) => x.downbeat === "true"
@@ -127,6 +127,7 @@ export default function FileUpload(props) {
         type: "Samplr",
         props: {
           file: file,
+          tempo: tempo,
           downbeats: downbeats,
           canvasData: canvasData,
         },

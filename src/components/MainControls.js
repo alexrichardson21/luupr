@@ -184,10 +184,10 @@ export default function MainControl(props) {
             {minor ? "minor" : "major"}
           </Button>
 
-          <IconButton className={classes.button}>
+          <IconButton onClick={() => props.globalPlayCallback()} className={classes.button}>
             <PlayIcon />
           </IconButton>
-          <IconButton className={classes.button}>
+          <IconButton onClick={() => props.globalStopCallback()} className={classes.button}>
             <StopIcon />
           </IconButton>
           <IconButton className={classes.button}>

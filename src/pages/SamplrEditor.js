@@ -91,6 +91,8 @@ export default function SamplrEditor(props) {
   return (
     <div>
       <SamplrSound
+        globalTempo={props.tempo}
+        trackTempo={props.trackProps.props.tempo}
         trackProps={props.trackProps}
         downbeats={props.trackProps.props.downbeats}
         play={play}

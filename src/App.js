@@ -40,13 +40,14 @@ import Sound from "react-sound";
 
 function App() {
   const [tracks, setTracks] = React.useState([{ type: "Drum", props: {} }]);
-  const [loops, setLoops] = React.useState([[]])
+  // const [loops, setLoops] = React.useState([[]])
   const [openDrawer, toggleDrawer] = React.useState(false);
-  const [currPage, setCurrPage] = React.useState(0);
+  // const [currPage, setCurrPage] = React.useState(0);
   const [openLoop, setOpenLoop] = React.useState(0);
-  const [isDarkMode, setDarkMode] = React.useState(true);
+  // const [isDarkMode, setDarkMode] = React.useState(true);
   const [luuprMode, setLuuprMode] = React.useState(true);
   const [tempo, setTempo] = React.useState(120);
+  const [globalPlay, setGlobalPlay] = React.useState(false)
 
   // let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   // prefersDarkMode = true;
@@ -66,13 +67,13 @@ function App() {
   //   [prefersDarkMode]
   // );
 
-  const toggleDrawerCallback = () => {
-    toggleDrawer(!openDrawer);
-  };
+  // const toggleDrawerCallback = () => {
+  //   toggleDrawer(!openDrawer);
+  // };
 
-  const addTrackCallback = (newTrack) => {
-    setTracks(tracks.concat([newTrack]));
-  };
+  // const addTrackCallback = (newTrack) => {
+  //   setTracks(tracks.concat([newTrack]));
+  // };
 
   return (
     <div>
@@ -84,6 +85,8 @@ function App() {
           modeCallback={() => setLuuprMode(!luuprMode)}
           tempo={tempo}
           tempoCallback={(bpm) => setTempo(bpm)}
+          globalPlayCallback={() => setGlobalPlay(true)}
+          globalStopCallback={() => setGlobalPlay(false)}
         ></MainControls>
       </header>
 
@@ -101,9 +104,11 @@ function App() {
 
         {openLoop && (
           <SamplrEditor
+            tempo={tempo}
             trackProps={tracks[openLoop.trackId]}
             openLoop={openLoop}
             tempoCallback={(bpm) => setTempo(bpm)}
+            globalPlay={globalPlay}
           ></SamplrEditor>
         )}
       </body>
