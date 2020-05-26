@@ -34,8 +34,10 @@ export default function LoopBubble(props) {
   const [open, setOpen] = React.useState(false);
 
   const annoying = () => {
-    setIsPlaying(!isPlaying); 
-    props.playCallback();
+    props.playingLoops[props.trackId] !== props.id ?
+    props.playLoopCallback(props.trackId, props.id) :
+    props.stopLoopCallback(props.trackId)
+    // setIsPlaying(!isPlaying); 
   }
 
   const gay = () => {
@@ -55,11 +57,11 @@ export default function LoopBubble(props) {
         onDoubleClick={handleDoubleClick}
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
-        className={isPlaying ? classes.play : classes.card}
+        className={props.playingLoops[props.trackId] === props.id ? classes.play : classes.card}
       >
         {isShown && (
           <CardContent>
-            {isPlaying ? (
+            {props.playingLoops[props.trackId] === props.id ? (
               <div className={classes.cardContent}>
                 <StopIcon ></StopIcon>
               </div>

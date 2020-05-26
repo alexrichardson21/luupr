@@ -66,9 +66,14 @@ export default function LuuprPage(props) {
     .map((track, i) => (
       <Grid item>
         <LuuprTrack
+          newLoopCallback={props.newLoopCallback}
           openLoopCallback={props.openLoopCallback}
           trackType={track.type}
           trackProps={track.props}
+          trackLoops={track.loops}
+          playingLoops={props.playingLoops}
+          playLoopCallback={props.playLoopCallback}
+          stopLoopCallback={props.stopLoopCallback}
           id={i}
         ></LuuprTrack>
       </Grid>

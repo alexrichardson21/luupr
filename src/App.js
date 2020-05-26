@@ -9,6 +9,7 @@ import SimpleBottomNavigation from "./deprecated/SimpleBottomNavigation.js";
 import LuuprPage from "./pages/LuuprPage";
 import SamplrEditor from "./pages/SamplrEditor";
 import Sound from "react-sound";
+import SoundLuuper from "./components/SoundLuupr";
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -39,15 +40,18 @@ import Sound from "react-sound";
 // }));
 
 function App() {
-  const [tracks, setTracks] = React.useState([{ type: "Drum", props: {} }]);
+  const [tracks, setTracks] = React.useState([
+    { type: "Drum", props: {}, loops: [] },
+  ]);
   // const [loops, setLoops] = React.useState([[]])
   const [openDrawer, toggleDrawer] = React.useState(false);
   // const [currPage, setCurrPage] = React.useState(0);
   const [openLoop, setOpenLoop] = React.useState(0);
   // const [isDarkMode, setDarkMode] = React.useState(true);
+  const [playingLoops, setPlayingLoops] = React.useState([-1])
   const [luuprMode, setLuuprMode] = React.useState(true);
   const [tempo, setTempo] = React.useState(120);
-  const [globalPlay, setGlobalPlay] = React.useState(false)
+  const [globalPlay, setGlobalPlay] = React.useState(false);
 
   // let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   // prefersDarkMode = true;
@@ -95,9 +99,32 @@ function App() {
           <div>
             <LuuprPage
               openLoopCallback={(num) => setOpenLoop(num)}
-              addTrack={(track) => setTracks(tracks.concat([track]))}
+              playLoopCallback={(trackNum, loopNum) => {
+                let a = playingLoops.slice();
+                a[trackNum] = loopNum;
+                setPlayingLoops(a)
+              }}
+              stopLoopCallback={(trackNum) => {
+                let a = playingLoops.slice();
+                a[trackNum] = -1;
+                setPlayingLoops(a)
+              }
+              }
+              playingLoops={playingLoops}
+              addTrack={(track) => {
+                setTracks(tracks.concat([track]));
+                setPlayingLoops(playingLoops.concat([-1]))
+              }}
               tracks={tracks}
               openDrawer={openDrawer}
+              newLoopCallback={(trackId) => {
+                let a = tracks.slice();
+                a[trackId].loops.push(Array(a[trackId].props.canvasData.length).fill([]));
+                setTracks(a);
+                // let b = playingLoops.slice()
+                // b = b[trackId].concat([-1])
+                // setPlayingLoops(b)
+              }}
             ></LuuprPage>
           </div>
         )}
@@ -105,12 +132,37 @@ function App() {
         {openLoop && (
           <SamplrEditor
             tempo={tempo}
+            addLoopDataCallback={(rowIndex, start, end) => {
+              const a = tracks.slice();
+              a[openLoop.trackId].loops[openLoop.loopId].push({
+                index: rowIndex,
+                start: start,
+                end: end,
+              });
+              setTracks(a);
+            }}
+            setLoopDataCallback={(data, rowIndex) => {
+              const a = tracks.slice();
+              a[openLoop.trackId].loops[openLoop.loopId][rowIndex] = data;
+              // a[openLoop.trackId].loops[openLoop.loopId][boxIndex].end = end;
+              setTracks(a);
+            }}
+            changeLoopDataCallback={(boxIndex, start, end) => {
+              const a = tracks.slice();
+              a[openLoop.trackId].loops[openLoop.loopId][
+                boxIndex
+              ].start = start;
+              a[openLoop.trackId].loops[openLoop.loopId][boxIndex].end = end;
+              setTracks(a);
+            }}
             trackProps={tracks[openLoop.trackId]}
             openLoop={openLoop}
+            loopProps={tracks[openLoop.trackId].loops[openLoop.loopId]}
             tempoCallback={(bpm) => setTempo(bpm)}
             globalPlay={globalPlay}
           ></SamplrEditor>
         )}
+        {/* <SoundLuuper playingLoops={playingLoops} trackLoops={tracks.map((track) => track.loops)} /> */}
       </body>
 
       <footer></footer>

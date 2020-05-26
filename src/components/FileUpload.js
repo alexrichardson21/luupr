@@ -69,7 +69,7 @@ export default function FileUpload(props) {
 
       let url = new URL("https://api.sonicAPI.com/analyze/tempo"),
         params = {
-          access_id: "20c0ebce-64f8-4049-a41b-f401cd1c805c",
+          access_id: "f530618f-2654-4642-818f-dc69156c6532",
           format: "json",
         };
 
@@ -131,6 +131,7 @@ export default function FileUpload(props) {
           downbeats: downbeats,
           canvasData: canvasData,
         },
+        loops: []
       });
       props.loadingCallback(false);
       console.log("Endddd");

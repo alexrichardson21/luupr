@@ -2,7 +2,17 @@ import React from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Rect, Transformer } from "react-konva";
 
-const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
+const Rectangle = ({
+  id,
+  shapeProps,
+  isSelected,
+  onSelect,
+  onChange,
+  onDoubleClick,
+  globalWidth,
+  // loopData,
+  // changeLoopDataCallback,
+}) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
 
@@ -19,21 +29,22 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
       <Rect
         onClick={onSelect}
         onTap={onSelect}
+        onDblClick={onDoubleClick}
+        onDblTap={onDoubleClick}
         ref={shapeRef}
         {...shapeProps}
         draggable
+        cornerRadius={30}
         dragBoundFunc={(pos) => {
-          // var newY = pos.y < 50 ? 50 : pos.y;
           return {
-            x: Math.ceil(pos.x / 100) * 100,
+            x: Math.ceil(pos.x / (globalWidth / 8)) * (globalWidth / 8),
             y: 0,
           };
         }}
         onDragEnd={(e) => {
           onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            // y: 100
+            start: e.target.x() / globalWidth,
+            end: e.target.x() / globalWidth + shapeProps.width / globalWidth,
           });
         }}
         onTransform={(e) => {
@@ -43,18 +54,27 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
           // to match the data better we will reset scale on transform end
           const node = shapeRef.current;
           const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
+          // const scaleY = node.scaleY();
 
           // we will reset it back
           node.scaleX(1);
-          node.scaleY(1);
+          // node.scaleY(1);
+
+          // onChange({
+          //   ...shapeProps,
+          //   x: node.x(),
+          //   // y: node.y(),
+          //   // set minimal value
+          //   width:
+          //     Math.ceil((node.width() * scaleX) / (globalWidth / 8)) *
+          //     (globalWidth / 8),
+          //   // height: Math.max(node.height() * scaleY)
+          // });
+
           onChange({
-            ...shapeProps,
-            x: node.x(),
-            // y: node.y(),
-            // set minimal value
-            width: Math.ceil((node.width() * scaleX) / 100) * 100,
-            // height: Math.max(node.height() * scaleY)
+            // ...shapeProps,
+            start: node.x() / globalWidth,
+            end: Math.ceil((node.width() * scaleX) / globalWidth*8)/8,
           });
         }}
       />
@@ -76,19 +96,12 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
   );
 };
 
-export default function SamplrTable(props) {
-  const initialRectangles = [
-    {
-      x: 0,
-      y: 0,
-      width: props.width/8,
-      height: props.height,
-      fill: "red",
-      id: "rect1",
-    },
-  ];
-  const [rectangles, setRectangles] = React.useState(initialRectangles);
+export default function SamplrRow(props) {
   const [selectedId, selectShape] = React.useState(null);
+
+  const setData = (data) => {
+    props.setLoopDataCallback(data, props.rowIndex);
+  };
 
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
@@ -98,31 +111,70 @@ export default function SamplrTable(props) {
     }
   };
 
+  const checkNew = (e) => {
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      const a = props.loopProps.slice();
+      // console.log(a);
+
+      setData(
+        a.concat([
+          {
+            start: Math.ceil(((e.evt.clientX - 275) / props.width) * 8) / 8,
+            end:
+              Math.ceil(((e.evt.clientX - 275) / props.width) * 8) / 8 + 0.125,
+          },
+        ])
+      );
+    }
+  };
+
   return (
     <Stage
       width={props.width}
       height={props.height}
       onMouseDown={checkDeselect}
       onTouchStart={checkDeselect}
+      onDblClick={checkNew}
     >
       <Layer>
-        {rectangles.map((rect, i) => {
-          return (
-            <Rectangle
-              key={i}
-              shapeProps={rect}
-              isSelected={rect.id === selectedId}
-              onSelect={() => {
-                selectShape(rect.id);
-              }}
-              onChange={(newAttrs) => {
-                const rects = rectangles.slice();
-                rects[i] = newAttrs;
-                setRectangles(rects);
-              }}
-            />
-          );
-        })}
+        {props.loopProps &&
+          props.loopProps
+            .map((loop) => {
+              return {
+                x: loop.start * props.width,
+                y: 0,
+                width: (loop.end - loop.start) * props.width,
+                height: props.height,
+                fill: "red",
+              };
+            })
+            .map((rect, i) => {
+              return (
+                <Rectangle
+                  key={i}
+                  id={i}
+                  shapeProps={rect}
+                  isSelected={i === selectedId}
+                  onSelect={() => {
+                    selectShape(i);
+                  }}
+                  loopData={props.loopProps}
+                  changeLoopDataCallback={props.changeLoopDataCallback}
+                  onChange={(newAttrs) => {
+                    const rects = props.loopProps.slice();
+                    rects[i] = newAttrs;
+                    setData(rects);
+                  }}
+                  onDoubleClick={() => {
+                    const rects = props.loopProps.slice();
+                    rects.splice(i, 1);
+                    setData(rects);
+                  }}
+                  globalWidth={props.width}
+                />
+              );
+            })}
       </Layer>
     </Stage>
   );

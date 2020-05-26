@@ -10,12 +10,11 @@ import { white } from "material-ui/styles/colors";
 import { black } from "material-ui/styles/colors";
 import clsx from "clsx";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     verticalAlign: "middle",
     // background: 'linear-gradient(90deg, #515151 20%, #414141 100%)',
-    background: '#414141',
+    background: "#414141",
     borderRadius: 20,
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     // padding: theme.spacing(25),
   },
   grid: {
-    height: 100
+    height: 100,
   },
   card: {
     minWidth: 100,
@@ -40,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     alignItems: "center",
   },
-
 }));
 
 export default function LuuprTrack(props) {
@@ -48,16 +46,17 @@ export default function LuuprTrack(props) {
   const [loops, setLoops] = React.useState(0);
 
   const parentFunction = () => {
-    loops < 6 ? setLoops(loops + 1) : setLoops(loops);
+    props.newLoopCallback();
+    // loops < 6 ? setLoops(loops + 1) : setLoops(loops);
   };
 
   const callbackFunction = (childData) => {
-    this.setState({drumOpen: childData})
+    this.setState({ drumOpen: childData });
   };
 
-  const bubbleLayout = [...Array(loops).keys()].map((item) => (
+  const bubbleLayout = props.trackLoops.map((_, item) => (
     // <Grid item className={classes.LoopBubble}>
-    <Draggable key={item+1} draggableId={String(item+1)} index={item}>
+    <Draggable key={item} draggableId={String(item)} index={item}>
       {(provided, snapshot) => (
         <Grid
           item
@@ -70,7 +69,15 @@ export default function LuuprTrack(props) {
           //   provided.draggableProps.style
           // )}
         >
-          <LoopBubble id={item+1} trackId={props.id} trackProps={props.trackProps} openLoopCallback={props.openLoopCallback}></LoopBubble>
+          <LoopBubble
+            id={item}
+            trackId={props.id}
+            trackProps={props.trackProps}
+            playLoopCallback={props.playLoopCallback}
+            stopLoopCallback={props.stopLoopCallback}
+            openLoopCallback={props.openLoopCallback}
+            playingLoops={props.playingLoops}
+          ></LoopBubble>
         </Grid>
       )}
     </Draggable>
@@ -87,15 +94,17 @@ export default function LuuprTrack(props) {
         className={classes.grid}
       >
         <Grid item>
-            <LuuprTrackHeader trackType={props.trackType} open={() => props.open()}></LuuprTrackHeader>
+          <LuuprTrackHeader
+            trackType={props.trackType}
+            open={() => props.open()}
+          ></LuuprTrackHeader>
         </Grid>
 
         <Grid item className={classes.LoopBubble}>
-          {loops < 6 && (
-            <NewLoopBubble
-              functionCallFromParent={parentFunction.bind(this)}
-            ></NewLoopBubble>
-          )}
+          <NewLoopBubble
+            trackId={props.id}
+            newLoopCallback={props.newLoopCallback}
+          ></NewLoopBubble>
         </Grid>
 
         <Grid item>

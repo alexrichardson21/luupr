@@ -6,6 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, Table } from "react-virtualized";
 import VertWavCanvas from "./VertWavCanvas";
+import SamplrRow from "./SamplrRow";
 import { ButtonBase } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -177,6 +178,43 @@ export default function SamplrTable(props) {
     );
   };
 
+  const rowRenderer = ({ cellData, rowIndex, width }) => {
+    return (
+      <TableCell
+        component="div"
+        className={clsx(classes.tableCell, classes.flexContainer)}
+        variant="body"
+        style={{ height: rowHeight }}
+        align="left"
+      >
+        {/* <ButtonBase style={{ height: rowHeight, width: 200 }}  onMouseUp={props.stop()}> */}
+        <SamplrRow 
+        data={props.canvasData[rowIndex]}
+          play={props.play}
+          stop={props.stop}
+          rowIndex={rowIndex}
+          height={rowHeight}
+          width={width}
+          // openLoop={props.openLoop}
+          loopProps={props.loopProps[rowIndex]}
+          // loopData={props.trackProps.loops[props.openLoop.loopId]}
+          setLoopDataCallback={props.setLoopDataCallback}
+          addLoopDataCallback={props.addLoopDataCallback}
+          changeLoopDataCallback={props.changeLoopDataCallback}
+          />
+        {/* <VertWavCanvas
+          data={props.canvasData[rowIndex]}
+          play={props.play}
+          stop={props.stop}
+          rowIndex={rowIndex}
+          height={rowHeight}
+          width={200}
+        /> */}
+        {/* </ButtonBase> */}
+      </TableCell>
+    );
+  };
+
   const headerRenderer = ({ columnIndex }) => {
     const headers = [
       "",
@@ -246,7 +284,23 @@ export default function SamplrTable(props) {
               cellRenderer={canvasRenderer}
               dataKey="canvas"
             />
-            {[...Array(columns).keys()].map((i) => {
+            <Column
+              key="data"
+              headerRenderer={(headerProps) =>
+                headerRenderer({
+                  ...headerProps,
+                  columnIndex: 1,
+                })
+              }
+              width={width - 200}
+              className={classes.flexContainer}
+              cellRenderer={(cellProps) =>
+                rowRenderer({ ...cellProps, width: (width - 200) })
+              }
+              dataKey="data"
+            />
+
+            {/* {[...Array(columns).keys()].map((i) => {
               return (
                 <Column
                   key={i + 1}
@@ -265,7 +319,7 @@ export default function SamplrTable(props) {
                   // {...other}
                 />
               );
-            })}
+            })} */}
           </Table>
         )}
       </AutoSizer>

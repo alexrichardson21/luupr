@@ -100,10 +100,15 @@ export default function SamplrEditor(props) {
       ></SamplrSound>
       <NewMotherfuckingSamplrTable
         canvasData={props.trackProps.props.canvasData}
+        // openLoop={props.openLoop}
+        loopProps={props.loopProps}
         downbeats={props.trackProps.props.downbeats}
         trackProps={props.trackProps}
         stop={() => {setPlayIndex(0); setPlay(false);}}
         play={(i) => {setPlayIndex(i); setPlay(true);}}
+        addLoopDataCallback={props.addLoopDataCallback}
+        changeLoopDataCallback={props.changeLoopDataCallback}
+        setLoopDataCallback={props.setLoopDataCallback}
       />
       {/* <VertWavCanvas data={props.trackProps.props.file}  downbeats={props.trackProps.props.downbeats} height={80} width={200}></VertWavCanvas> */}
     </div>

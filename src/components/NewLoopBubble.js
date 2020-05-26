@@ -22,7 +22,7 @@ export default function NewLoopBubble(props) {
   return (
     <div>
         <ButtonBase
-          onClick={() => (props.functionCallFromParent())}
+          onClick={() => (props.newLoopCallback(props.trackId))}
         >
           <Card className={classes.card}>
               <CardContent>
