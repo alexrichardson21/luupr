@@ -69,7 +69,7 @@ export default function FileUpload(props) {
 
       let url = new URL("https://api.sonicAPI.com/analyze/tempo"),
         params = {
-          access_id: "f530618f-2654-4642-818f-dc69156c6532",
+          access_id: "d8283c9f-7f9f-43be-a2bc-d895ea5b564c",
           format: "json",
         };
 

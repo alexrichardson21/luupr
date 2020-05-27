@@ -196,9 +196,9 @@ export default function SamplrTable(props) {
           height={rowHeight}
           width={width}
           // openLoop={props.openLoop}
-          loopProps={props.loopProps[rowIndex]}
+          loopProps={props.loopProps}
           // loopData={props.trackProps.loops[props.openLoop.loopId]}
-          setLoopDataCallback={props.setLoopDataCallback}
+          deleteLoopDataCallback={props.deleteLoopDataCallback}
           addLoopDataCallback={props.addLoopDataCallback}
           changeLoopDataCallback={props.changeLoopDataCallback}
           />

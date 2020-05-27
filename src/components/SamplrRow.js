@@ -11,7 +11,8 @@ const Rectangle = ({
   onDoubleClick,
   globalWidth,
   // loopData,
-  // changeLoopDataCallback,
+  rowIndex,
+  changeLoopDataCallback,
 }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
@@ -42,7 +43,12 @@ const Rectangle = ({
           };
         }}
         onDragEnd={(e) => {
-          onChange({
+          // onChange({
+          //   start: e.target.x() / globalWidth,
+          //   end: e.target.x() / globalWidth + shapeProps.width / globalWidth,
+          // });
+          changeLoopDataCallback(id, {
+            noteIndex: rowIndex,
             start: e.target.x() / globalWidth,
             end: e.target.x() / globalWidth + shapeProps.width / globalWidth,
           });
@@ -71,11 +77,17 @@ const Rectangle = ({
           //   // height: Math.max(node.height() * scaleY)
           // });
 
-          onChange({
-            // ...shapeProps,
+          changeLoopDataCallback(id, {
+            noteIndex: rowIndex,
             start: node.x() / globalWidth,
-            end: Math.ceil((node.width() * scaleX) / globalWidth*8)/8,
+            end: Math.ceil(((node.width() * scaleX) / globalWidth) * 8) / 8,
           });
+
+          // onChange({
+          //   // ...shapeProps,
+          //   start: node.x() / globalWidth,
+          //   end: Math.ceil((node.width() * scaleX) / globalWidth*8)/8,
+          // });
         }}
       />
       {isSelected && (
@@ -100,7 +112,7 @@ export default function SamplrRow(props) {
   const [selectedId, selectShape] = React.useState(null);
 
   const setData = (data) => {
-    props.setLoopDataCallback(data, props.rowIndex);
+    props.changeLoopDataCallback(props.rowIndex, data);
   };
 
   const checkDeselect = (e) => {
@@ -114,18 +126,23 @@ export default function SamplrRow(props) {
   const checkNew = (e) => {
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      const a = props.loopProps.slice();
+      // const a = props.loopProps.slice();
       // console.log(a);
-
-      setData(
-        a.concat([
-          {
-            start: Math.ceil(((e.evt.clientX - 275) / props.width) * 8) / 8,
-            end:
-              Math.ceil(((e.evt.clientX - 275) / props.width) * 8) / 8 + 0.125,
-          },
-        ])
-      );
+      props.addLoopDataCallback({
+        start: Math.ceil(((e.evt.clientX - 275) / props.width) * 8) / 8,
+        end: Math.ceil(((e.evt.clientX - 275) / props.width) * 8) / 8 + 0.125,
+        noteIndex: props.rowIndex,
+      });
+      // setData(
+      //   a.concat([
+      //     {
+      //       // noteIndex:
+      //       start: Math.ceil(((e.evt.clientX - 275) / props.width) * 8) / 8,
+      //       end:
+      //         Math.ceil(((e.evt.clientX - 275) / props.width) * 8) / 8 + 0.125,
+      //     },
+      //   ])
+      // );
     }
   };
 
@@ -140,36 +157,44 @@ export default function SamplrRow(props) {
       <Layer>
         {props.loopProps &&
           props.loopProps
-            .map((loop) => {
-              return {
-                x: loop.start * props.width,
-                y: 0,
-                width: (loop.end - loop.start) * props.width,
-                height: props.height,
-                fill: "red",
-              };
+            // .map((loop, i) => (loop.loop.id = i))
+            
+            .map((loop, i) => {
+              if (loop.noteIndex === props.rowIndex) {
+                return {
+                  id: i,
+                  x: loop.start * props.width,
+                  y: 0,
+                  width: (loop.end - loop.start) * props.width,
+                  height: props.height,
+                  fill: "red",
+                };
+              }
+              return null;
             })
-            .map((rect, i) => {
+            .filter((x) => x !== null)
+            .map((rect) => {
               return (
                 <Rectangle
-                  key={i}
-                  id={i}
+                  key={rect.id}
+                  id={rect.id}
                   shapeProps={rect}
-                  isSelected={i === selectedId}
+                  isSelected={rect.id === selectedId}
                   onSelect={() => {
-                    selectShape(i);
+                    selectShape(rect.id);
                   }}
                   loopData={props.loopProps}
                   changeLoopDataCallback={props.changeLoopDataCallback}
-                  onChange={(newAttrs) => {
-                    const rects = props.loopProps.slice();
-                    rects[i] = newAttrs;
-                    setData(rects);
-                  }}
+                  // onChange={(newAttrs) => {
+                  //   const rects = props.loopProps.slice();
+                  //   rects[i] = newAttrs;
+                  //   setData(rects);
+                  // }}
+                  rowIndex={props.rowIndex}
                   onDoubleClick={() => {
-                    const rects = props.loopProps.slice();
-                    rects.splice(i, 1);
-                    setData(rects);
+                    // const rects = props.loopProps.slice();
+                    // rects.splice(i, 1);
+                    props.deleteLoopDataCallback(rect.id);
                   }}
                   globalWidth={props.width}
                 />

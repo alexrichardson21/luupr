@@ -48,7 +48,7 @@ function App() {
   // const [currPage, setCurrPage] = React.useState(0);
   const [openLoop, setOpenLoop] = React.useState(0);
   // const [isDarkMode, setDarkMode] = React.useState(true);
-  const [playingLoops, setPlayingLoops] = React.useState([-1])
+  const [playingLoops, setPlayingLoops] = React.useState([-1]);
   const [luuprMode, setLuuprMode] = React.useState(true);
   const [tempo, setTempo] = React.useState(120);
   const [globalPlay, setGlobalPlay] = React.useState(false);
@@ -89,8 +89,30 @@ function App() {
           modeCallback={() => setLuuprMode(!luuprMode)}
           tempo={tempo}
           tempoCallback={(bpm) => setTempo(bpm)}
-          globalPlayCallback={() => setGlobalPlay(true)}
-          globalStopCallback={() => setGlobalPlay(false)}
+          globalPlayCallback={() => {
+            setGlobalPlay(true);
+            // tracks.map((track, i) => {
+            //   if (playingLoops[i] !== -1) {
+            //     track.loops[playingLoops[i]].map((notes, j) => {
+            //       notes !== [] ?
+            //       notes.map((note, k) => {
+            //         loop = {
+            //           trackIndex: i,
+            //           note: j,
+            //           index: k,
+            //           playStatus: false,
+            //           startPosition: track.props.downbeats[j] * 1000
+            //         }
+            //       }
+            //     })
+            //   }
+            // });
+            setPlayingLoops();
+          }}
+          globalStopCallback={() => {
+            setPlayingLoops(playingLoops.map(() => -1));
+            setGlobalPlay(false);
+          }}
         ></MainControls>
       </header>
 
@@ -102,24 +124,28 @@ function App() {
               playLoopCallback={(trackNum, loopNum) => {
                 let a = playingLoops.slice();
                 a[trackNum] = loopNum;
-                setPlayingLoops(a)
+                setPlayingLoops(a);
+                setGlobalPlay(true);
               }}
               stopLoopCallback={(trackNum) => {
                 let a = playingLoops.slice();
                 a[trackNum] = -1;
-                setPlayingLoops(a)
-              }
-              }
+                setPlayingLoops(a);
+                // setGlobalPlay(false)
+              }}
               playingLoops={playingLoops}
               addTrack={(track) => {
                 setTracks(tracks.concat([track]));
-                setPlayingLoops(playingLoops.concat([-1]))
+                setPlayingLoops(playingLoops.concat([-1]));
               }}
               tracks={tracks}
               openDrawer={openDrawer}
               newLoopCallback={(trackId) => {
                 let a = tracks.slice();
-                a[trackId].loops.push(Array(a[trackId].props.canvasData.length).fill([]));
+                a[trackId].loops.push(
+                  []
+                  // Array(a[trackId].props.canvasData.length).fill([])
+                );
                 setTracks(a);
                 // let b = playingLoops.slice()
                 // b = b[trackId].concat([-1])
@@ -128,31 +154,23 @@ function App() {
             ></LuuprPage>
           </div>
         )}
-
         {openLoop && (
           <SamplrEditor
             tempo={tempo}
-            addLoopDataCallback={(rowIndex, start, end) => {
+            deleteLoopDataCallback={(noteIndex) => {
               const a = tracks.slice();
-              a[openLoop.trackId].loops[openLoop.loopId].push({
-                index: rowIndex,
-                start: start,
-                end: end,
-              });
+              a[openLoop.trackId].loops[openLoop.loopId].splice(noteIndex, 1);
               setTracks(a);
             }}
-            setLoopDataCallback={(data, rowIndex) => {
+            addLoopDataCallback={(data) => {
               const a = tracks.slice();
-              a[openLoop.trackId].loops[openLoop.loopId][rowIndex] = data;
+              a[openLoop.trackId].loops[openLoop.loopId].push(data);
               // a[openLoop.trackId].loops[openLoop.loopId][boxIndex].end = end;
               setTracks(a);
             }}
-            changeLoopDataCallback={(boxIndex, start, end) => {
+            changeLoopDataCallback={(noteIndex, data) => {
               const a = tracks.slice();
-              a[openLoop.trackId].loops[openLoop.loopId][
-                boxIndex
-              ].start = start;
-              a[openLoop.trackId].loops[openLoop.loopId][boxIndex].end = end;
+              a[openLoop.trackId].loops[openLoop.loopId][noteIndex] = data;
               setTracks(a);
             }}
             trackProps={tracks[openLoop.trackId]}
@@ -162,7 +180,37 @@ function App() {
             globalPlay={globalPlay}
           ></SamplrEditor>
         )}
-        {/* <SoundLuuper playingLoops={playingLoops} trackLoops={tracks.map((track) => track.loops)} /> */}
+        {/* {playingLoops.some((loop) => loop !== -1) && (
+          <SoundLuuper
+            tempo={tempo}
+            // playCallback={(rowI, soundI) => playingLoops}
+            // stopCallback={(rowI, soundI) => p}
+            trackLoops={tracks.map((track) => track.loops)}
+            playingLoops={playingLoops}
+            playingStatus={playingLoops.some((loop) => loop !== -1)}
+            barLength={(1 / tempo) * 60 * 1000 * 8}
+            // loopData={playingLoops.map((playingLoop, i) =>
+            //   playingLoop !== -1
+            //     ? tracks.map((track) => track.loops)[i][playingLoop]
+            //     : null
+            // )}
+            downbeats={tracks[1].props.downbeats}
+          />
+        )} */}
+        {/* {tracks.map((track, i) => {
+          if (playingLoops[i] !== -1) {
+            return (
+              <Sound
+                url={
+                  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3"
+                }
+                playStatus={tracks.loops[playingLoops[i]].playStatus}
+                playFromPosition={sound.startPosition}
+                playbackRate={props.globalTempo / props.trackTempo}
+              />
+            );
+          } */}
+        })}
       </body>
 
       <footer></footer>

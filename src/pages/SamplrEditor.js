@@ -108,7 +108,7 @@ export default function SamplrEditor(props) {
         play={(i) => {setPlayIndex(i); setPlay(true);}}
         addLoopDataCallback={props.addLoopDataCallback}
         changeLoopDataCallback={props.changeLoopDataCallback}
-        setLoopDataCallback={props.setLoopDataCallback}
+        deleteLoopDataCallback={props.deleteLoopDataCallback}
       />
       {/* <VertWavCanvas data={props.trackProps.props.file}  downbeats={props.trackProps.props.downbeats} height={80} width={200}></VertWavCanvas> */}
     </div>
