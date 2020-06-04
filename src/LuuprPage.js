@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import LuuprTrack from "./LuuprTrack";
 import NewTrackDialog from "./NewTrackDialog";
 // import clsx from "clsx";
-import NewDrumDialog from "./NewDrumDialog";
 import React from "react";
 import {
   Button,
@@ -24,8 +23,8 @@ export default function LuuprPage(props) {
   // const [tracks, setTracks] = React.useState([{ type: "Drum", props: {} }]);
   const [newTrackPopup, setNewTrackPopup] = React.useState(false);
   const [isOpenTrackDialog, setIsOpenTrackDialog] = React.useState(false);
-  const [isOpenDrumDialog, setIsOpenDrumDialog] = React.useState(false);
   const [currTrackId, setCurrTrackId] = React.useState(-1);
+
 
   return (
     <div className="luuprPage">
@@ -40,9 +39,10 @@ export default function LuuprPage(props) {
                     playLoopCallback={props.playLoopCallback}
                     openLoopCallback={props.openLoopCallback}
                     newLoopCallback={props.newLoopCallback}
-                    openNewDrumDialogCallback={(trackId) => {
-                      setCurrTrackId(trackId); setIsOpenDrumDialog(true);
-                    }}
+                    // openNewDrumDialogCallback={(trackId) => {
+                    //   setCurrTrackId(trackId); setIsOpenDrumDialog(true);
+                    // }}
+                    newDrumCallback={props.newDrumCallback}
                     trackId={i}
                     type={track.type}
                     instrument={track.instrument}
@@ -66,16 +66,7 @@ export default function LuuprPage(props) {
         open={isOpenTrackDialog}
         closeCallback={() => setIsOpenTrackDialog(false)}
         newTrackCallback={props.newTrackCallback}
-        drumDialogCallback={() => setIsOpenDrumDialog(true)}
-      />
-      <NewDrumDialog
-        trackId={currTrackId}
-        open={isOpenDrumDialog}
-        closeCallback={() => {
-          setIsOpenDrumDialog(false);
-          setCurrTrackId(-1);
-        }}
-        newDrumCallback={props.newDrumCallback}
+        // drumDialogCallback={() => setIsOpenDrumDialog(true)}
       />
     </div>
   );

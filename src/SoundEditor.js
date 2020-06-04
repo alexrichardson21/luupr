@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BottomDrawer(props) {
+export default function SoundEditor(props) {
   const classes = useStyles();
   const notes = [
     "C",
@@ -49,7 +49,7 @@ export default function BottomDrawer(props) {
     "B",
   ];
   const noteGetter = (rowIndex) =>
-    [notes[rowIndex % notes.length], Math.ceil(rowIndex / notes.length)].join(
+    [notes[rowIndex % notes.length], Math.ceil(rowIndex / notes.length + .00001)].join(
       ""
     );
 

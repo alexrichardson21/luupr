@@ -1,29 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Dialog from '@material-ui/core/Dialog';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import DrumTreeView from './DrumTreeView';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Radio from "@material-ui/core/Radio";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import DrumTreeView from "./DrumTreeView";
 
-const options = [
-    'Drum',
-    'Samplr',
-    'Synthesizr',
-];
+const options = ["Drum", "Samplr", "Synthesizr"];
 
 function ConfirmationDialogRaw(props) {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
-  const radioGroupRef = React.useRef(null);
+  // const radioGroupRef = React.useRef(null);
 
   React.useEffect(() => {
     if (!open) {
@@ -31,11 +27,11 @@ function ConfirmationDialogRaw(props) {
     }
   }, [valueProp, open]);
 
-  const handleEntering = () => {
-    if (radioGroupRef.current != null) {
-      radioGroupRef.current.focus();
-    }
-  };
+  // const handleEntering = () => {
+  //   if (radioGroupRef.current != null) {
+  //     radioGroupRef.current.focus();
+  //   }
+  // };
 
   const handleCancel = () => {
     onClose();
@@ -54,14 +50,14 @@ function ConfirmationDialogRaw(props) {
       disableBackdropClick
       disableEscapeKeyDown
       maxWidth="xs"
-      onEntering={handleEntering}
+      // onEntering={handleEntering}
       aria-labelledby="confirmation-dialog-title"
       open={open}
       {...other}
     >
       <DialogTitle id="confirmation-dialog-title">Add New Track</DialogTitle>
       <DialogContent dividers>
-<DrumTreeView/>
+        <DrumTreeView selectCallback={(drum) => setValue(drum)} />
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleCancel} color="primary">
@@ -83,49 +79,43 @@ ConfirmationDialogRaw.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   paper: {
-    width: '80%',
+    width: "80%",
     maxHeight: 435,
   },
 }));
 
-export default function ConfirmationDialog(props) {
+export default function NewDrumDialog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('Drum');
+  const [value, setValue] = React.useState("Drum");
 
-//   const handleClickListItem = () => {
-//     setOpen(true);
-//   };
+  //   const handleClickListItem = () => {
+  //     setOpen(true);
+  //   };
 
   const handleClose = (newValue) => {
     props.closeCallback();
 
-    if (newValue === 'Drum'){
-        props.newDrumCallback();
-    } else {
-      props.newTrackCallback(newValue);
-    }
+    props.newDrumCallback(props.trackId, newValue)
   };
 
   return (
     <div className={classes.root}>
-
-        <ConfirmationDialogRaw
-          classes={{
-            paper: classes.paper,
-          }}
-          id="new-track-menu"
-          keepMounted
-          open={props.open}
-          onClose={handleClose}
-          value={value}
-        />
-        
+      <ConfirmationDialogRaw
+        classes={{
+          paper: classes.paper,
+        }}
+        id="new-track-menu"
+        keepMounted
+        open={props.open}
+        onClose={handleClose}
+        value={value}
+      />
     </div>
   );
 }

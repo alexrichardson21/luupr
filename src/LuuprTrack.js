@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // import clsx from "clsx";
 import React from "react";
 import { Button } from "@material-ui/core";
+import NewDrumDialog from "./NewDrumDialog";
 
 const useStyles = makeStyles((theme) => ({
   luuprPage: {
@@ -12,12 +13,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LuuprTrack(props) {
   const classes = useStyles();
+  const [isOpenDrumDialog, setIsOpenDrumDialog] = React.useState(false);
 
   return (
     <div>
-
       {props.instrument === "Drum Kit" && (
-        <Button onClick={() => props.openNewDrumDialogCallback()}> new drum </Button>
+        <div>
+          <Button onClick={() => setIsOpenDrumDialog(true)}> new drum </Button>
+          <NewDrumDialog
+            trackId={props.trackId}
+            open={isOpenDrumDialog}
+            closeCallback={() => {
+              setIsOpenDrumDialog(false);
+            }}
+            newDrumCallback={props.newDrumCallback}
+          />
+        </div>
       )}
       {props.instrument === "Samplr" && (
         <div>

@@ -15,7 +15,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const options = [
     'Samplr',
-    'Synthesizr',
+    'SoundBank'
+    // 'Synthesizr',
 ];
 
 function ConfirmationDialogRaw(props) {
@@ -101,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ConfirmationDialog(props) {
+export default function NewTrackDialog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('Drum');

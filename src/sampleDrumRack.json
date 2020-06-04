@@ -1,0 +1,52 @@
+[
+  {
+    "type": "sampler",
+    "instrument": "Drum Kit",
+    "play": false,
+    "playingLoop": -1,
+    "loops": [
+      [
+        {
+          "rowNote": "C1",
+          "start": "256i",
+          "duration": "64i",
+          "id": 0
+        },
+        {
+          "rowNote": "C1",
+          "start": "384i",
+          "duration": "64i",
+          "id": 1
+        },
+        {
+          "rowNote": "C#1",
+          "start": "320i",
+          "duration": "64i",
+          "id": 2
+        },
+        {
+          "rowNote": "C#1",
+          "start": "448i",
+          "duration": "64i",
+          "id": 3
+        },
+        {
+          "rowNote": "C1",
+          "start": "0i",
+          "duration": "64i",
+          "id": 4
+        },
+        {
+          "rowNote": "C#1",
+          "start": "96i",
+          "duration": "16i",
+          "id": 5
+        }
+      ]
+    ],
+    "drums": [
+      "/static/media/kick.62f81fd2.mp3",
+      "/static/media/hat.8f3996bc.mp3"
+    ]
+  }
+]

@@ -43,7 +43,7 @@ const Rectangle = ({
         onDragEnd={(e) => {
           changeNoteCallback(id, {
             rowNote: rowNote,
-            start: e.target.x() / globalWidth,
+            start: `${e.target.x() / globalWidth * (192*4)}i`,
             end: e.target.x() / globalWidth + shapeProps.width / globalWidth,
           });
         }}
@@ -60,7 +60,7 @@ const Rectangle = ({
 
           changeNoteCallback(id, {
             rowNote: rowNote,
-            start: node.x() / globalWidth,
+            start: `${node.x() / globalWidth * (192*4)}i`,
             end: Math.ceil(((node.width() * scaleX) / globalWidth) * 8) / 8,
           });
         }}
@@ -98,8 +98,9 @@ export default function SamplrRow(props) {
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
       props.addNoteCallback({
-        start: Math.max(Math.ceil(((e.evt.clientX-150) / props.width) * 8) / 8, 0),
-        end: Math.min(Math.ceil(((e.evt.clientX-150) / props.width) * 8) / 8 + 0.125, 1),
+        start: `${Math.max(Math.ceil(((e.evt.clientX-150) / props.width) * 8) / 8, 0) * (192*4)}i`,
+        duration: `${.125*(192*4)}i`,
+        offset: props.downbeat,
         rowNote: props.rowNote,
       });
     }

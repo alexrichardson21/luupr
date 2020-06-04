@@ -4,8 +4,26 @@ import TreeView from "@material-ui/lab/TreeView";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import TreeItem from "@material-ui/lab/TreeItem";
-const data =
+import kick from './drums/kick.mp3'
+import snare from './drums/snare.mp3'
+import hat from './drums/hat.mp3'
+
 const data = [
+  {
+    id: kick,
+    name: "Kick",
+  },
+  {
+    id: snare,
+    name: "Snare",
+  },
+  {
+    id: hat,
+    name: "Hat",
+  },
+];
+
+const data2 = [
   {
     id: "Kicks",
     name: "Kicks",
@@ -214,8 +232,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RecursiveTreeView() {
+export default function RecursiveTreeView(props) {
   const classes = useStyles();
+  const [selected, setSelected] = React.useState([]);
+
+  const handleSelect = (event, nodeIds) => {
+    props.selectCallback(nodeIds);
+  };
+
+
 
   const renderTree = (nodes) => (
     <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
@@ -231,6 +256,7 @@ export default function RecursiveTreeView() {
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpanded={["root"]}
       defaultExpandIcon={<ChevronRightIcon />}
+      onNodeSelect={handleSelect}
     >
       {data.map((dataaaaaa) => renderTree(dataaaaaa))}
     </TreeView>
