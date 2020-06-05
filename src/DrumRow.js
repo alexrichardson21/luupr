@@ -74,26 +74,14 @@ export default function DrumRow(props) {
           <SeperableButton
             index={i}
             setSplitCallback={props.setSplitCallback}
-            // rowIndex={props}
-            loopData={props.loopData.filter(n => n.buttonIndex === i)}
+            loopData={props.loopData.filter(n => n.drumIndex === props.index && n.eighthIndex === i)}
             width={80}
             drumIndex={props.index}
             rowNote={noteGetter(props.index)}
-            split={props.splits[i]}
-            // changeSplitCallback={(size) => {
-            //   const a = splits.slice();
-            //   a[i] = new Array(size).fill(false);
-            //   setSplits(a);
-            // }}
-            // toggleNoteCallback={(splitIndex) => {
-            //   const a = splits.slice();
-            //   a[i][splitIndex] = !a[i][splitIndex];
-            //   setSplits(a);
-            // }}
+            split={props.splits.filter((s) => s.drumIndex === props.index && s.eighthIndex === i)}
             start={64 * i}
             duration={64}
             noteCallback={props.noteCallback}
-
             setNoteDataCallback={props.setNoteDataCallback}
           />
         );

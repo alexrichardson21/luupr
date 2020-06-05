@@ -15,6 +15,7 @@ import { Buffer } from "tone";
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(false);
   const [tracks, setTracks] = React.useState([
     {
       trackId: 0,
@@ -24,35 +25,16 @@ function App() {
       playingLoop: -1,
       loops: [],
       drums: {},
-      // splits: [[1,1,1,1,1,1,1,1]]
     },
   ]);
-  // const [drums, setDrums] = React.useState([]);
   const [globalTempo, setGlobalTempo] = React.useState(120);
   const [openLoop, setOpenLoop] = React.useState(null);
-  // const [playingLoops, setPlayingLoops] = React.useState([]);
   const [globalScale, setGlobalScale] = React.useState({
     root: "C",
     minor: false,
   });
   const [luuprMode, setLuuprMode] = React.useState(true);
 
-  const notesToSteps = (loop) => {
-    const steps = new Array(8 * 128).fill(0).map(() => new Array(0).fill(0));
-    // console.log(steps);
-
-    loop.forEach((note) => {
-      const i = Math.floor(note.start * 8 * 128);
-
-      steps[i].push({
-        name: note.rowNote,
-        duration: note.end - note.start * 128,
-        velocity: 100,
-      });
-    });
-    console.log(steps);
-    return steps.map((e) => (e === [] ? null : e));
-  };
   const notes = [
     "C",
     "C#",
@@ -73,50 +55,18 @@ function App() {
       Math.ceil(rowIndex / notes.length + 0.00001),
     ].join("");
 
-  // const toSamples = (drums) => {
-  //  const a = []
-  //  drums.forEach((drum, i) => a.push(noteGetter(i)))
-  //  return Object.fromEntries(a.map(function(e, i) {return [e, drums[i]];}));
-  // }
-
-  // const song = (
-  //   <Song bpm={globalTempo * 128} isPlaying={isPlaying}>
-  //     {tracks
-  //       .filter((track) => track.play)
-  //       .filter((track) => track.type !== 'sampler')
-  //       .map((track) => {
-  //         return (
-  //           <Track steps={notesToSteps(track.loops[track.playingLoop])}>
-  //             <Instrument type={track.type} />
-  //           </Track>
-  //         );
-  //       })}
-  //     {tracks
-  //       .filter((track) => track.play)
-  //       .filter((track) => track.type === 'sampler')
-  //       .map((track) => {
-  //         return (
-  //           <Track steps={notesToSteps(track.loops[track.playingLoop])}>
-  //             <Instrument type={track.type} onLoad={() => console.log('loaded')} samples={toSamples(track.drums)}/>
-  //           </Track>
-  //         );
-  //       })}
-  //   </Song>
-  // );
-
   return (
     <div className="App">
-      {/* {song} */}
-
-      {/* <ToneSong tracks={tracks} /> */}
       {
         <SoundEngine
+          isPlaying={isPlaying}
           drumTracks={tracks
             .filter((t) => t.play)
             .filter((track) => track.instrument === "Drum Kit")}
           samplrTracks={tracks
             .filter((t) => t.play)
             .filter((track) => track.instrument === "Samplr")}
+          setIsLoadedCallback={(val) => setIsLoaded(val)}
         />
       }
 
@@ -124,6 +74,7 @@ function App() {
         <Header
           globalTempo={globalTempo}
           globalScale={globalScale}
+          isLoaded={isLoaded}
           playCallback={() => setIsPlaying(true)}
           stopCallback={() => setIsPlaying(false)}
           toggleLuuprModeCallback={() => setLuuprMode(!luuprMode)}
@@ -149,7 +100,7 @@ function App() {
               const a = tracks.slice();
               a[trackId].loops.push({
                 loopData: [],
-                splits: new Array(Object.keys(a[trackId].drums).length).fill([1, 1, 1, 1, 1, 1, 1, 1]),
+                splits: [],
               });
               setTracks(a);
             }}
@@ -178,9 +129,6 @@ function App() {
               const len = Object.keys(tracks[trackId].drums).length;
               const a = tracks.slice();
               a[trackId].drums[noteGetter(len)] = new Buffer(drum);
-              a[trackId].loops.map((loop) =>
-                loop.splits.push([1, 1, 1, 1, 1, 1, 1, 1])
-              );
               setTracks(a);
             }}
           />
@@ -194,52 +142,63 @@ function App() {
             open={openLoop !== null}
             openLoop={openLoop}
             splits={tracks[openLoop.trackId].loops[openLoop.loopId].splits}
-            setSplitCallback={(newSplit, buttonIndex, drumIndex) => {
+            setSplitCallback={(newSplit, eighthIndex, drumIndex) => {
               const a = tracks.slice();
-              a[openLoop.trackId].loops[openLoop.loopId].splits[drumIndex][
-                buttonIndex
-              ] = newSplit;
+
+              const sameSplit = a[openLoop.trackId].loops[
+                openLoop.loopId
+              ].splits.findIndex(
+                (s) =>
+                  s.eighthIndex === eighthIndex && s.drumIndex === drumIndex
+              );
+              if (sameSplit === -1) {
+                a[openLoop.trackId].loops[openLoop.loopId].splits.push({
+                  drumIndex: drumIndex,
+                  eighthIndex: eighthIndex,
+                  split: newSplit,
+                });
+              } else {
+                a[openLoop.trackId].loops[openLoop.loopId].splits.splice(
+                  sameSplit,
+                  1,
+                  {
+                    drumIndex: drumIndex,
+                    eighthIndex: eighthIndex,
+                    split: newSplit,
+                  }
+                );
+              }
+
               a[openLoop.trackId].loops[openLoop.loopId].loopData = a[
                 openLoop.trackId
               ].loops[openLoop.loopId].loopData.filter(
                 (n) =>
-                  n.drumIndex !== drumIndex && n.buttonIndex !== buttonIndex
+                  n.drumIndex !== drumIndex || n.eighthIndex !== eighthIndex
               );
-              // console.log(a);
+
               setTracks(a);
             }}
-            // setNoteDataCallback={(noteData) => {
-            //   let a = tracks.slice();
-            //   let b = a[openLoop.trackId].loops[openLoop.loopId].filter(
-            //     (n) => n.buttonIndex !== noteData.buttonIndex
-            //   );
-            //   console.log(noteData);
-            //   console.log(b);
-            //   b.push(noteData);
-            //   // note.id = a[openLoop.trackId].loops[openLoop.loopId].length;
-            //   setTracks(a);
-            // }}
-            // setLoopCallback={(newLoop) => {
-            //   const a = tracks.slice();
-            //   a[openLoop.trackId].loops[openLoop.loopId] = newLoop;
-            //   setTracks(a);
-            // }}
-            noteCallback={(note) => {
+            noteCallback={(note, drumIndex, buttonIndex, splitIndex) => {
               let a = tracks.slice();
-              note.id =
-                a[openLoop.trackId].loops[openLoop.loopId].loopData.length;
+
               const samenote = a[openLoop.trackId].loops[
                 openLoop.loopId
-              ].loopData.findIndex((b) => b.start === note.start);
-              console.log(note);
+              ].loopData.findIndex(
+                (b) =>
+                  b.drumIndex === drumIndex &&
+                  b.eighthIndex === buttonIndex &&
+                  b.splitIndex === splitIndex
+              );
+
               if (samenote !== -1) {
                 a[openLoop.trackId].loops[openLoop.loopId].loopData.splice(
-                  samenote
+                  samenote,
+                  1
                 );
               } else {
                 a[openLoop.trackId].loops[openLoop.loopId].loopData.push(note);
               }
-              console.log(a);
+
               setTracks(a);
             }}
           />

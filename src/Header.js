@@ -96,10 +96,10 @@ export default function ButtonAppBar(props) {
 
           {/* <Button>major</Button> */}
 
-          <IconButton onClick={() => props.playCallback()}>
+          <IconButton disabled={!props.isLoaded} onClick={() => props.playCallback()}>
             <PlayIcon />
           </IconButton>
-          <IconButton onClick={() => props.stopCallback()}>
+          <IconButton disabled={!props.isLoaded} onClick={() => props.stopCallback()}>
             <StopIcon />
           </IconButton>
         </Toolbar>

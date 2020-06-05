@@ -21,7 +21,7 @@ export default function SoundEngine(props) {
   }, []);
 
   useEffect(() => {
-    console.log(props.drumTracks);
+    console.log(props.drumTracks);   
     setLoadedSamplers(0);
     if (props.drumTracks && props.drumTracks.length) {
       console.log("FX: new samplers");
@@ -97,7 +97,7 @@ export default function SoundEngine(props) {
     
     if (props.samplrTracks && props.samplrTracks.length) {
         console.log('WTFFFFF');
-      setLoaded(
+     props.setIsLoadedCallback(
         loadedPlayers ===
           props.samplrTracks
             //   .filter((t) => t.play)
@@ -107,7 +107,7 @@ export default function SoundEngine(props) {
     }
     if (props.drumTracks && props.drumTracks.length) {
     console.log('uyeaerf')
-      setLoaded(
+      props.setIsLoadedCallback(
         loadedSamplers ===
           props.drumTracks
             //   .filter((t) => t.play)
@@ -117,12 +117,20 @@ export default function SoundEngine(props) {
     }
   }, [props.samplrTracks, props.drumTracks, loadedPlayers, loadedSamplers]);
 
-  return (
-    <div>
-      <button disabled={!loaded} onClick={() => Tone.Transport.start()}>
-        start
-      </button>
-      <button onClick={() => Tone.Transport.stop()}>stop</button>
-    </div>
-  );
+  useEffect(() => {
+    if (props.isPlaying) {
+        Tone.Transport.start()
+    } else {
+        Tone.Transport.stop()
+    }
+  }, [props.isPlaying])
+  return null
+//   return (
+//     <div>
+//       <button disabled={!loaded} onClick={() => }>
+//         start
+//       </button>
+//       <button onClick={() => }>stop</button>
+//     </div>
+//   );
 }

@@ -14,8 +14,10 @@ import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const options = [
+    'DrumKit',
     'Samplr',
-    'SoundBank'
+    'SoundBank',
+    'AudioStage',
     // 'Synthesizr',
 ];
 

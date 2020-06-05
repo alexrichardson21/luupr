@@ -59,34 +59,16 @@ export default function DrumEditor(props) {
     ].join("");
 
   const Row = ({ index, style }) => (
-    <DrumRow loopData={props.loop.loopData.filter(n => n.drumIndex === index)} splits={props.splits[index]} setSplitCallback={props.setSplitCallback} noteCallback={props.noteCallback} index={index} style={style}/>
-    // <Grid container style={style}>
-    //   <Button height={60}> Sample {noteGetter(index)} </Button>
-    //   {splits.map((split, i) => {
-    //     return (
-    //       <SeperableButton
-    //         index={i}
-    //         width={80}
-    //         note={noteGetter(index)}
-    //         split={split}
-    //         changeSplitCallback={(size) => {
-    //           const a = splits.slice();
-    //           a[i] = new Array(size).fill(false)
-    //           setSplits(a);
-    //         }}
-    //         toggleNoteCallback={(splitIndex) => {
-    //           const a = splits.slice()
-    //           a[i][splitIndex] = !a[i][splitIndex]
-    //           setSplits(a)
-    //         }
-    //         }
-    //         start={64 * i}
-    //         duration={64}
-    //         noteCallback={props.noteCallback}
-    //       />
-    //     );
-    //   })}
-    // </Grid>
+    <DrumRow
+      loopData={props.loop.loopData.filter((n) => n.drumIndex === index)}
+      splits={props.splits}
+      setSplitCallback={props.setSplitCallback}
+      noteCallback={props.noteCallback}
+      index={index}
+      style={style}
+      // notesOn={props.notesOn[index]}
+      // setNotesOnCallback={props.setNotesOnCallback}
+    />
   );
 
   return (
