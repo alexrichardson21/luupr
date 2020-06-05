@@ -76,7 +76,18 @@ function App() {
           globalScale={globalScale}
           isLoaded={isLoaded}
           playCallback={() => setIsPlaying(true)}
-          stopCallback={() => setIsPlaying(false)}
+          stopCallback={() => {
+            setIsPlaying(false);
+            setTracks(
+              tracks.map((tr) => {
+                return {
+                  ...tr,
+                  play: false,
+                };
+              })
+            );
+            
+          }}
           toggleLuuprModeCallback={() => setLuuprMode(!luuprMode)}
         />
       </header>
