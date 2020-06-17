@@ -18,133 +18,123 @@ import PlayIcon from "@material-ui/icons/PlayArrow";
 import StopIcon from "@material-ui/icons/Stop";
 import { black, fullWhite } from "material-ui/styles/colors";
 import React from "react";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    // display: "flex",
+    marginBottom: -theme.spacing(5.5)
   },
-  
   mainControlPaper: {
     background: "#212121",
     // height: 40,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    position: "fixed",
+    // position: "fixed",
     zIndex: 490,
-    /* margin-bottom: 20px; */
+    marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(2.5)
+
     /* bottom: "auto"; */
-    left: theme.spacing(2),
-    top: theme.spacing(2.5),
+    // left: theme.spacing(2),
+    // top: theme.spacing(2.5)
   },
   mainControl: {
-    minWidth: 410,
+    minWidth: 410
   },
   select: {
-    color: fullWhite,
+    color: fullWhite
   },
- 
-  // icon: {
-  //   htmlColor: theme.custom.palette.iconColor,
-  // },
   paper: {
-    background: "#212121",
+    background: "#212121"
   },
   formControl: {
     width: 90,
     // marginRight: theme.spacing(2),
     color: fullWhite,
-    marginLeft: theme.spacing(3),
+    marginLeft: theme.spacing(3)
   },
   formControl2: {
     width: 45,
     color: black,
     color: fullWhite,
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(5)
   },
   tabFab: {
-    position: "fixed",
+    position: "relative",
     left: theme.spacing(8),
-    top: theme.spacing(2),
+    top: -theme.spacing(6.5),
     zIndex: 500,
-    background: "#414141",
+    background: "#414141"
   },
   appGrid: {
-    display: "flex",
+    display: "flex"
   },
   divider: {
-    height: 15,
+    height: 15
     // marginLeft: theme.spacing(1),
     // color: 'white',
   },
   minorButton: {
     // marginRight: theme.spacing(2),
-    color: fullWhite,
+    color: fullWhite
   },
   button: {
-    color: fullWhite,
+    color: fullWhite
     // marginLeft: theme.spacing(1),
   },
   backButton: {
-    color: '#696969',
-    marginRight: theme.spacing(2),
+    color: "#696969",
+    marginRight: theme.spacing(2)
     // opacity: .5,
   },
   nav: {
-    marginLeft: theme.spacing(2),
-  },
+    marginLeft: theme.spacing(2)
+  }
 }));
 
 export default function MainControl(props) {
   const classes = useStyles();
-//   const theme = useTheme();
-//   const [open, setOpen] = React.useState(false);
   const [key, setKey] = React.useState("C");
-  // const [tempo, setTempo] = React.useState(props.tempo);
   const [minor, setMinor] = React.useState(false);
   const [mode, setMode] = React.useState(true);
 
-  const handleKeyChange = (event) => {
+  const handleKeyChange = event => {
     setKey(event.target.value);
   };
-  const handleTempoChange = (event) => {
+  const handleTempoChange = event => {
     if (event.target.value >= 60 && event.target.value <= 300) {
-      // setTempo(event.target.value);
       props.tempoCallback(event.target.value);
     }
   };
-  const toggleMinor = (event) => {
+  const toggleMinor = event => {
     setMinor(!minor);
   };
   const toggleMode = () => {
     setMode(!mode);
-    console.log('some shit')
+    console.log("some shit");
     props.modeCallback();
   };
   const backButtonClick = () => {
     if (props.openLoop) {
-      props.backCallback()
+      props.backCallback();
     }
-  }
+  };
 
   return (
     <div className={classes.root}>
       <Paper className={classes.mainControlPaper}>
-
         <Grid container className={classes.mainControl} alignItems="center">
-        <IconButton onClick={backButtonClick} className={classes.backButton}>
-          <ArrowBackIcon></ArrowBackIcon>
-        </IconButton>
+          <IconButton onClick={backButtonClick} className={classes.backButton}>
+            <ArrowBackIcon />
+          </IconButton>
           <FormControl variant="filled" className={classes.formControl}>
             <Input
               className={classes.formControl}
-              id="filled-adornment-amount"
-              // classname={classes.tempoInput}
+              id="bpm-input"
               value={props.tempo}
               type="number"
               onChange={handleTempoChange}
@@ -159,8 +149,6 @@ export default function MainControl(props) {
           <FormControl variant="standard" className={classes.formControl2}>
             {/* <InputLabel id="demo-simple-select-filled-label">Key</InputLabel> */}
             <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
               value={key}
               onChange={handleKeyChange}
               className={classes.select}
@@ -184,10 +172,16 @@ export default function MainControl(props) {
             {minor ? "minor" : "major"}
           </Button>
 
-          <IconButton onClick={() => props.globalPlayCallback()} className={classes.button}>
+          <IconButton
+            onClick={() => props.globalPlayCallback()}
+            className={classes.button}
+          >
             <PlayIcon />
           </IconButton>
-          <IconButton onClick={() => props.globalStopCallback()} className={classes.button}>
+          <IconButton
+            onClick={() => props.globalStopCallback()}
+            className={classes.button}
+          >
             <StopIcon />
           </IconButton>
           <IconButton className={classes.button}>
@@ -196,12 +190,11 @@ export default function MainControl(props) {
         </Grid>
       </Paper>
       <Fab className={classes.tabFab} onClick={toggleMode}>
-        {
-          mode ?
-          <LoopIcon htmlColor='#ffffff'></LoopIcon> :
-          <FormatIndentIncreaseIcon  htmlColor='#ffffff'></FormatIndentIncreaseIcon>
-        }
-        
+        {mode ? (
+          <LoopIcon htmlColor="#ffffff" />
+        ) : (
+          <FormatIndentIncreaseIcon htmlColor="#ffffff" />
+        )}
       </Fab>
     </div>
   );

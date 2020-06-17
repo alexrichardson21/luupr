@@ -20,20 +20,20 @@ const useStyles = makeStyles(({ palette }) => ({
     textAlign: "center",
     borderRadius: 20,
     height: 100,
-    width: 180,
+    width: 180
   },
   button: {
     width: 90,
-    height: 50,
+    height: 50
   },
   volume: {
-    width: 150,
+    width: 150
     // height: 50,
   },
   topRow: {
     // marginLeft: 10,
     // width: 200,
-    height: 100,
+    height: 100
     // textAlign: 'center',
   },
   bottomRow: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles(({ palette }) => ({
   },
   iconButton: {
     margin: "auto",
-    color: white,
+    color: white
   },
   cardHeader: {
     // height: 50,
@@ -51,19 +51,19 @@ const useStyles = makeStyles(({ palette }) => ({
   avatar: {
     width: 60,
     height: 60,
-    margin: "auto",
+    margin: "auto"
   },
   heading: {
     fontSize: 18,
     fontWeight: "bold",
     letterSpacing: "0.5px",
     marginTop: 8,
-    marginBottom: 0,
+    marginBottom: 0
   },
   subheader: {
     fontSize: 14,
     color: palette.grey[500],
-    marginBottom: "0.875em",
+    marginBottom: "0.875em"
   },
   statLabel: {
     fontSize: 12,
@@ -71,20 +71,20 @@ const useStyles = makeStyles(({ palette }) => ({
     fontWeight: 500,
     fontFamily:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-    margin: 0,
+    margin: 0
   },
   statValue: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 4,
-    letterSpacing: "1px",
+    letterSpacing: "1px"
   },
   trackInput: {
-    width: 100,
+    width: 100
   },
   color0: {
     color: white,
-    backgroundColor: "#FF525A",
+    backgroundColor: "#FF525A"
   },
   // color4: {
   //   color: black,
@@ -92,27 +92,27 @@ const useStyles = makeStyles(({ palette }) => ({
   // },
   color1: {
     color: white,
-    backgroundColor: "#4778ff",
+    backgroundColor: "#4778ff"
   },
   color3: {
     color: black,
-    backgroundColor: "#FF4D9D",
+    backgroundColor: "#FF4D9D"
   },
   color2: {
     color: white,
-    backgroundColor: "#a390e4",
+    backgroundColor: "#a390e4"
 
     // color: black,
     // backgroundColor: "#FF4D9D",
-  },
+  }
 }));
 
-const LuuprTrackHeader = (props) => {
+const LuuprTrackHeader = props => {
   const styles = useStyles();
   const shadowStyles = useFadedShadowStyles();
   const borderedGridStyles = useGutterBorderedGridStyles({
     borderColor: "rgba(0, 0, 0, 0.08)",
-    height: "50%",
+    height: "50%"
   });
   const [seeAll, setSeeAll] = React.useState(false);
   const [hover, setHover] = React.useState(false);
@@ -129,10 +129,10 @@ const LuuprTrackHeader = (props) => {
       className={cx(
         styles.card,
         shadowStyles.root,
-        props.trackType === "Drum" && styles.color0,
+        props.trackType === "Drum Kit" && styles.color0,
         props.trackType === "Samplr" && styles.color1,
-        props.trackType === "Synthesizr" && styles.color2,
-        props.trackType === "Audio" && styles.color3
+        props.trackType === "Sound Bank" && styles.color2,
+        props.trackType === "Audio Frame" && styles.color3
       )}
     >
       {hover ? (
@@ -144,16 +144,16 @@ const LuuprTrackHeader = (props) => {
           alignItems="center"
         >
           <Grid item xs={12}>
-            <Slider className={styles.volume}></Slider>
+            <Slider className={styles.volume} />
           </Grid>
           <Grid item xs={6}>
             <ButtonBase className={styles.button}>
-              <VolumeOffIcon></VolumeOffIcon>
+              <VolumeOffIcon />
             </ButtonBase>
           </Grid>
           <Grid item xs={6}>
             <ButtonBase className={styles.button}>
-              <HeadsetIcon></HeadsetIcon>
+              <HeadsetIcon />
             </ButtonBase>
           </Grid>
         </Grid>
@@ -167,10 +167,10 @@ const LuuprTrackHeader = (props) => {
         >
           <Grid item>
             {props.trackType === "Samplr" && (
-              <AlbumIcon htmlColor="#FFFFFF" fontSize="large"></AlbumIcon>
+              <AlbumIcon htmlColor="#FFFFFF" fontSize="large" />
             )}
             {props.trackType !== "Samplr" && (
-              <HeadsetIcon htmlColor="#FFFFFF" fontSize="large"></HeadsetIcon>
+              <HeadsetIcon htmlColor="#FFFFFF" fontSize="large" />
             )}
           </Grid>
         </Grid>

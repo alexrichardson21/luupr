@@ -1,5 +1,5 @@
 {
-  "name": "daw",
+  "name": "luupr",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,13 +16,11 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
-    "react-draggable": "^4.3.1",
     "react-keyboard-event-handler": "^1.5.4",
     "react-konva": "^16.13.0-2",
     "react-scripts": "3.4.1",
-    "react-sound": "^1.2.0",
-    "react-virtualized": "^9.21.2",
-    "reactstrap": "^8.4.1"
+    "react-sound": "1.2.0",
+    "react-virtualized": "^9.21.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -44,5 +42,7 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "keywords": [],
+  "description": ""
 }

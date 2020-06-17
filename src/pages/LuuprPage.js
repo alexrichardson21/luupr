@@ -7,11 +7,11 @@ import NewTrackPopup from "../components/NewTrackPopup";
 import FileUpload from "../components/FileUpload";
 import AddIcon from "@material-ui/icons/Add";
 import { Paper, Button } from "@material-ui/core";
-import LoadingTrack from './../components/LoadingTrack'
+import LoadingTrack from "./../components/LoadingTrack";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   luuprPage: {
-    display: "flex",
+    display: "flex"
   },
   newTrackPaper: {
     borderRadius: 20,
@@ -23,35 +23,35 @@ const useStyles = makeStyles((theme) => ({
     background: "#212121",
     opacity: 0.75,
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   button: {
-    height: 100,
+    height: 100
     // width: 400,
   },
   paper: {
     // padding: theme.spacing(1),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    minHeight: 50,
+    minHeight: 50
   },
   content: {
     // flexGrow: 1,
     // padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
     marginLeft: 0,
-    marginRight: 70,
+    marginRight: 70
   },
   contentShift: {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: theme.transitions.duration.enteringScreen
     }),
-    marginLeft: 240,
-  },
+    marginLeft: 240
+  }
 }));
 
 export default function LuuprPage(props) {
@@ -75,7 +75,7 @@ export default function LuuprPage(props) {
           playLoopCallback={props.playLoopCallback}
           stopLoopCallback={props.stopLoopCallback}
           id={i}
-        ></LuuprTrack>
+        />
       </Grid>
     ));
 
@@ -86,7 +86,7 @@ export default function LuuprPage(props) {
         className={classes.button}
         onClick={() => setNewTrackPopup(true)}
       >
-        <AddIcon htmlColor="#717171"></AddIcon>
+        <AddIcon htmlColor="#717171" />
       </Button>
     </Paper>
   );
@@ -100,11 +100,11 @@ export default function LuuprPage(props) {
         justify="space-between"
         spacing={24}
         className={clsx(classes.content, {
-          [classes.contentShift]: props.openDrawer,
+          [classes.contentShift]: props.openDrawer
         })}
       >
         {trackLayout}
-        {trackLoading && (<LoadingTrack></LoadingTrack>)}
+        {trackLoading && <LoadingTrack />}
         {newTrack}
       </Grid>
 
@@ -114,8 +114,8 @@ export default function LuuprPage(props) {
         newTrackClose={() => setNewTrackPopup(false)}
         fileOpenCallback={() => setOpenFilePopup(true)}
         open={newTrackPopup}
-        loadingCallback={(status) => setTrackLoading(status)}
-      ></NewTrackPopup>
+        loadingCallback={status => setTrackLoading(status)}
+      />
     </div>
   );
 }

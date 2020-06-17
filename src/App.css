@@ -5,7 +5,7 @@
 .App-header {
   /* float: left; */
   display: flex;
-  height: 13vh;
+  /* height: 13vh; */
   /* background: linear-gradient(-45deg, #bc62d9 20%, #FF8E53 45%); */
   /* background: linear-gradient(-90deg,#bc62d9 20%, #FF8E53 40%, #414141 30%); */
   background: #313131;
@@ -17,7 +17,7 @@
 }
 
 .App-body {
-  min-height: 87vh;
+  /* min-height: 87vh; */
   background-color: #313131;
 }
 
