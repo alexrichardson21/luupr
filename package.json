@@ -18,7 +18,7 @@
     "react-dom": "^16.13.1",
     "react-keyboard-event-handler": "^1.5.4",
     "react-konva": "^16.13.0-2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-sound": "1.2.0",
     "react-virtualized": "^9.21.2"
   },
